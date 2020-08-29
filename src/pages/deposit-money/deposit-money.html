@@ -1,0 +1,355 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu" color="light"></ion-icon>
+        </button>
+        <ion-title>
+            Deposit money
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div [ngSwitch]="currentPage">
+
+        <div *ngSwitchCase="'setup'">
+
+            <div class="infoblock">
+                <p class="text-white">
+                    To buy shares you need money in your AZUZA account. AZUZA accepts payments from Internet banking,
+                    credit - and debit cards as well as a number of cryptocurrencies.
+                </p>
+            </div>
+
+            <h3 class="exo2 section-heading">Enter your deposit amount
+            </h3>
+
+            <div class="input-block" *ngIf="depositObject.paymentMethod != 'crypto'">
+                <ion-grid no-padding>
+                    <ion-row no-padding>
+                        <ion-col col-2 no-padding text-center>
+                            <div class="switch-button button-left currency-symbol">
+                                R
+                            </div>
+                        </ion-col>
+                        <ion-col col-10 no-padding style="padding-right: 10px">
+                            <ion-input inputmode="number" class="input-item text-white right" autocomplete="off"
+                                placeholder="{{ depositObject.depositDetails.amount }}"
+                                [(ngModel)]="depositObject.depositDetails.amount">
+                            </ion-input>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+            <span class="smallest left-15 center text-white" *ngIf="depositObject.paymentMethod != 'crypto'">Specify
+                amount in South African Rand</span>
+
+
+            <div class="input-block" *ngIf="depositObject.paymentMethod === 'crypto'">
+                <ion-grid no-padding>
+                    <ion-row no-padding>
+                        <ion-col col-2 no-padding text-center>
+                            <div class="switch-button button-left currency-symbol">
+                                {{ depositObject.depositDetails.base }}
+                            </div>
+                        </ion-col>
+
+                        <ion-col col-8 no-padding>
+                            <ion-input inputmode="number" class="input-item text-white" autocomplete="off"
+                                placeholder="{{ depositObject.depositDetails.amount }}"
+                                [(ngModel)]="depositObject.depositDetails.amount">
+                            </ion-input>
+                        </ion-col>
+                        <ion-col col-2 no-padding text-center (click)="toggleCryptoCurrency()">
+                            <button type="button" class="switch-button button-right">
+                                <ion-icon name="md-swap"></ion-icon>
+                            </button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+            <span class="smallest left-15 center text-white"
+                *ngIf="depositObject.paymentMethod === 'crypto' && depositObject.depositDetails.base == 'ZAR'">Specify
+                amount in South African Rand</span>
+            <span class="smallest left-15 center text-white"
+                *ngIf="depositObject.paymentMethod === 'crypto' && depositObject.depositDetails.base != 'ZAR'">Specify
+                amount in {{ cryptoIcons[selectedCryptoIndex].name }}</span>
+
+
+
+            <h3 class="exo2 section-heading">Choose a payment method</h3>
+
+            <div>
+                <ion-grid no-padding>
+                    <ion-row no-padding>
+                        <ion-col col-4 class="text-center" padding>
+                            <button class="button-icon-top" color="secondary" ion-button
+                                (click)="updatePaymentMethod(0)"
+                                [ngClass]="depositObject.paymentMethod === 'eft' ? 'selected' : 'unselected' ">
+                                <ion-icon [ngClass]="depositObject.paymentMethod === 'eft' ? 'selected' : 'unselected' "
+                                    name="md-cash"></ion-icon>
+                                <span [ngClass]="depositObject.paymentMethod === 'eft' ? 'selected' : 'unselected' "
+                                    class="text-white">EFT</span>
+                            </button>
+                        </ion-col>
+                        <ion-col col-4 class="text-center" padding>
+                            <button class="button-icon-top" color="secondary" ion-button
+                                (click)="updatePaymentMethod(1)"
+                                [ngClass]="depositObject.paymentMethod === 'card' ? 'selected' : 'unselected' ">
+                                <ion-icon
+                                    [ngClass]="depositObject.paymentMethod === 'card' ? 'selected' : 'unselected' "
+                                    name="ios-card"></ion-icon>
+                                <span [ngClass]="depositObject.paymentMethod === 'card' ? 'selected' : 'unselected' "
+                                    class="text-white">Card</span>
+                            </button>
+                        </ion-col>
+                        <ion-col col-4 class="text-center" padding>
+                            <button class="button-icon-top" color="secondary" ion-button
+                                (click)="updatePaymentMethod(2)"
+                                [ngClass]="depositObject.paymentMethod === 'crypto' ? 'selected' : 'unselected' ">
+                                <ion-icon
+                                    [ngClass]="depositObject.paymentMethod === 'crypto' ? 'selected' : 'unselected' "
+                                    name="logo-bitcoin"></ion-icon>
+                                <span [ngClass]="depositObject.paymentMethod === 'crypto' ? 'selected' : 'unselected' "
+                                    class="text-white">Crypto</span>
+                            </button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+
+            <h3 class="exo2 section-heading" *ngIf="depositObject.paymentMethod === 'crypto'">Select your currency</h3>
+
+            <div *ngIf="depositObject.paymentMethod === 'crypto'">
+                <ion-grid no-padding>
+                    <ion-row no-padding>
+
+                        <ion-col padding col-4 class="text-center" text-wrap (click)="setCryptoCurrency('FRX', 0)">
+                            <img src="assets/icon/Fraxeum_White.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency != 'FRX'" />
+                            <img src="assets/icon/Fraxeum.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency === 'FRX'" />
+                            <ion-label class="text-white"
+                                [ngClass]="depositObject.depositDetails.currency === 'FRX' ? 'selectedCoinName':''">
+                                Fraxeum
+                            </ion-label>
+                        </ion-col>
+                        <ion-col padding col-4 class="text-center" text-wrap (click)="setCryptoCurrency('BTC', 1)">
+                            <img src="assets/icon/Bitcoin_White.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency != 'BTC'" />
+                            <img src="assets/icon/Bitcoin.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency === 'BTC'" />
+                            <ion-label class="text-white"
+                                [ngClass]="depositObject.depositDetails.currency === 'BTC' ? 'selectedCoinName':''">
+                                Bitcoin
+                            </ion-label>
+                        </ion-col>
+                        <ion-col padding col-4 class="text-center" text-wrap (click)="setCryptoCurrency('BSV', 2)">
+                            <img src="assets/icon/BitcoinSV_White.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency != 'BSV'" />
+                            <img src="assets/icon/BitcoinSV.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency === 'BSV'" />
+                            <ion-label class="text-white"
+                                [ngClass]="depositObject.depositDetails.currency === 'BSV' ? 'selectedCoinName':''">
+                                Bitcoin SV
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row no-padding>
+                        <ion-col col-4 class="text-center" text-wrap (click)="setCryptoCurrency('BCH', 3)">
+                            <img src="assets/icon/BitcoinCash_White.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency != 'BCH'" />
+                            <img src="assets/icon/BitcoinCash.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency === 'BCH'" />
+                            <ion-label class="text-white"
+                                [ngClass]="depositObject.depositDetails.currency === 'BCH' ? 'selectedCoinName':''">
+                                Bitcoin Cash
+                            </ion-label>
+                        </ion-col>
+                        <ion-col col-4 class="text-center" text-wrap (click)="setCryptoCurrency('ETH', 4)">
+                            <img src="assets/icon/Ethereum_White.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency != 'ETH'" />
+                            <img src="assets/icon/Ethereum.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency === 'ETH'" />
+                            <ion-label class="text-white"
+                                [ngClass]="depositObject.depositDetails.currency === 'ETH' ? 'selectedCoinName':''">
+                                Ethereum
+                            </ion-label>
+                        </ion-col>
+                        <ion-col col-4 class="text-center" text-wrap (click)="setCryptoCurrency('NEO', 5)">
+                            <img src="assets/icon/NEO_White.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency != 'NEO'" />
+                            <img src="assets/icon/NEO.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency === 'NEO'" />
+                            <ion-label class="text-white"
+                                [ngClass]="depositObject.depositDetails.currency === 'NEO' ? 'selectedCoinName':''">Neo
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row no-padding>
+                        <ion-col col-4 class="text-center" text-wrap (click)="setCryptoCurrency('XMR', 6)">
+                            <img src="assets/icon/Monero_White.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency != 'XMR'" />
+                            <img src="assets/icon/Monero.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency === 'XMR'" />
+                            <ion-label class="text-white"
+                                [ngClass]="depositObject.depositDetails.currency === 'XMR' ? 'selectedCoinName':''">
+                                Monero
+                            </ion-label>
+                        </ion-col>
+                        <ion-col col-4 class="text-center" text-wrap (click)="setCryptoCurrency('LTC', 7)">
+                            <img src="assets/icon/Litecoin_White.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency != 'LTC'" />
+                            <img src="assets/icon/Litecoin.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency === 'LTC'" />
+                            <ion-label class="text-white"
+                                [ngClass]="depositObject.depositDetails.currency === 'LTC' ? 'selectedCoinName':''">
+                                Litecoin
+                            </ion-label>
+                        </ion-col>
+
+                        <ion-col col-4 class="text-center" text-wrap (click)="setCryptoCurrency('ETC', 8)">
+                            <img src="assets/icon/EthereumClassic_White.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency != 'ETC'" />
+                            <img src="assets/icon/EthereumClassic.png" class="icon-images"
+                                *ngIf="depositObject.depositDetails.currency === 'ETC'" />
+                            <ion-label class="text-white"
+                                [ngClass]="depositObject.depositDetails.currency === 'ETC' ? 'selectedCoinName':''">
+                                Ethereum
+                                Classic
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+
+
+        <div *ngSwitchCase="'EFT_Final'">
+
+            <div class="infoblock">
+                <p class="text-white">
+                    We're all set. Please deposit the amount of R{{ depositDetails.amount }} into your AZUZA wallet
+                    using {{ depositDetails.reference }} as the beneficiary reference.
+                </p>
+            </div>
+
+            <ion-item class="share-list-item">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <div class="shares-item-content-header">
+                                <h4 class="text-white">
+                                    {{ depositPageHeader }}
+                                </h4>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="market-frame" style="margin-bottom: 10px;">
+
+                        <ion-col col-12 class="text-align-left border-bottom">
+
+                            <!-- shows shares owned -->
+                            <div>
+                                <ion-grid no-padding>
+                                    <ion-row class="border-bottom">
+                                        <ion-col class="padding-5 padding-bottom-10" col-12>
+                                            <div class="offer-label text-white left">Reference number</div>
+                                            <div class="larger margin-top-5 text-center text-white">
+                                                {{ depositDetails.reference }}
+                                                <span class="darkblue small left-15"
+                                                    (click)="copyToClipboard(depositDetails.reference)">
+                                                    <ion-icon name="md-copy"></ion-icon>
+                                                </span>
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col class="padding-5" col-6 class="border-right">
+                                            <div class="offer-label text-white left">Deposit amount</div>
+                                            <div class="medium margin-top-5 text-center text-white">
+                                                {{ depositDetails.amount | currency : 'ZAR': 'R' }}</div>
+                                        </ion-col>
+                                        <ion-col class="padding-5" col-6>
+                                            <div class="offer-label text-white right">Deposit fee</div>
+                                            <div class="medium margin-top-5 text-center text-white">
+                                                {{ 0.00 | currency : 'ZAR': 'R' }}
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+
+            <ion-item class="share-list-item">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <div class="shares-item-content-header">
+                                <h4 class="text-white">
+                                    Bank account information
+                                </h4>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="market-frame" style="margin-bottom: 10px;" class="text-white">
+                        <ion-col col-5 class="text-white">Bank name</ion-col>
+                        <ion-col col-7>{{ eftResponse.BankName }}</ion-col>
+                        <ion-col col-5>Account number</ion-col>
+                        <ion-col col-7>{{ eftResponse.BankAccountNumber }}</ion-col>
+                        <ion-col col-5>Branchcode</ion-col>
+                        <ion-col col-7>{{ eftResponse.BankBranchCode }}</ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+
+            <ion-item class="share-list-item">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <div class="shares-item-content-header">
+                                <h4 class="text-white">
+                                    Important notes:
+                                </h4>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="market-frame" style="margin-bottom: 10px;" class="text-white smaller text-wrap">
+                        <ion-col col-12>1. Deposits from {{ eftResponse.BankName }} will reflect the same day, usually
+                            within the hour. </ion-col>
+                        <ion-col col-12>2. This account accepts only EFT payments. No branch deposits will be accepted.
+                        </ion-col>
+                        <ion-col col-12>3. Ensure that you use the correct reference number.</ion-col>
+                        <ion-col col-12>4. Depending on the bank you pay from, deposits may take up to two full business
+                            days to process and reflect in your account.</ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+        </div>
+    </div>
+
+    <ion-fab right bottom>
+        <button *ngIf="currentPage === 'setup'" ion-fab mini color="primary" type="submit" (click)="nextStep()"
+            [disabled]="!depositObject.depositDetails.currency || !depositObject.depositDetails.amount">
+            <ion-icon name="log-in"></ion-icon>
+        </button>
+        <button *ngIf="currentPage === 'EFT_Final'" ion-fab mini color="primary" type="submit"
+            (click)="emailBankingDetails()">
+            <ion-icon name="md-mail"></ion-icon>
+        </button>
+
+    </ion-fab>
+
+    <ion-fab left bottom>
+        <button *ngIf="currentPage === 'EFT_Final'" ion-fab mini color="secondary" type="submit" (click)="goBack()">
+            <ion-icon name="undo"></ion-icon>
+        </button>
+        <button *ngIf="currentPage === 'setup'" ion-fab mini color="secondary" type="submit" (click)="goHome()">
+            <ion-icon name="close"></ion-icon>
+        </button>
+    </ion-fab>
+
+</ion-content>

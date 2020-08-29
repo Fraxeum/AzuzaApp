@@ -1,0 +1,366 @@
+shared-buywizard {
+    
+    /****** BUY WIZARD********/
+    .buyblock{
+      display: block;
+      position: absolute;
+    
+      bottom: 0px;
+      padding: 0px !important;
+      padding-bottom: 50px !important;
+    
+      left: 2%;
+      width: 96%;
+      margin-left: auto;
+      margin-right: auto;
+      height: auto;
+    
+      background-color: color($colors, light);
+      z-index: 1 !important;
+      
+      border: 1px solid white;
+      border-radius: 0px;
+    
+    }
+    
+    .buyblock .content{
+      padding: 5px;
+    }
+    
+    .scrollable-content{
+      height: 400px;
+      max-height: 80%;
+    }
+    
+    
+    
+      .item-title {
+        width: 100%;
+        position: relative;
+        font-size: large;
+        font-family: 'Exo 2';
+        font-weight: normal;
+        color: #fff;
+        text-align: center;
+        margin: 10px auto 10px auto;
+      }
+    
+      .emphasis{
+        font-size: 2.5em;
+        font-weight: bold;
+      }
+    
+      .black{
+        color: #000 !important;
+      }
+    
+      .small{
+        font-size: small;
+        font-style: italic;
+      }
+    
+      .left, .right{
+        display: block;
+        max-width: 49%;
+        float: left;
+        margin-top: 20px;
+      }
+    
+      .right{
+        float: right;
+      }
+      
+      .item-subtitle {
+        text-align: center;
+        width: 100%;
+        font-size: 1.0em;
+        color: rgba(255,255,255,0.75);
+        margin: 80% auto 5px auto;
+      }
+
+      
+      .switch_toggle{
+        display: block;
+        width: auto;
+        float: left;
+      }
+    
+      .toggle-btn{
+        background-color: rgba(color($colors, secondary), 1) !important;
+        color: #000 !important;
+      }
+    
+      .radio-md .radio-checked {
+        border-color: rgba(0,0,0,0.35);
+      }
+    
+      #type-list.list-md {
+        margin: -1px 0px 0px !important;
+      }
+    
+      .radio-md .radio-icon{
+        width: 32px;
+        height: 32px;
+      }
+    
+      .radio-md .radio-inner {
+        left: 4px;
+        top: 4px;
+        width: 20px;
+        height: 20px;
+        background-color: color($colors, secondary);
+      }
+    
+      .item-radio-checked.item-md ion-label .radio, .item-md ion-label .radio{
+        color: #000000 !important;
+      }
+  
+    
+      .fiat-input-label{
+        text-align: right;
+        padding-top: 65%;
+        font-size: x-large;
+        font-weight: bold;
+      }
+    
+    
+      input.text-input, input.text-input-md{
+        padding: 0px !important;
+        margin: 5px 0px  !important;
+        text-align: center;
+      }
+    
+      .fiat-input{
+        text-align: left !important; 
+        margin-bottom: 3px;
+      }
+    
+      .shares-input{
+        text-align: right !important; 
+        margin-bottom: 3px;
+      }
+    
+      ion-slides.product-slider ion-slide.swiper-slide {
+        left: 25%;
+    }
+    
+      .product-label{
+        font-size: small;
+        color: white;
+        padding: 0px 5px !important;
+        margin-top: 2px;
+      }
+    
+    
+      .slide-zoom .image-slider {
+          background: #e6e6e6;
+      }
+    
+      .thumb-img {
+          padding: 10px;
+      }
+    /*
+      .content-heading{
+        display: inline;
+        z-index: 1;
+        padding: 5px 15px 7px 15px !important;
+        padding-bottom: 0px;
+        margin-left: 25px;
+        padding: 5px;
+
+        background-color:#2D3951;
+        border-radius: 5px;
+      }
+    
+      h3.content-heading{
+        color: #fff!important;
+        font-weight: normal;
+      }
+
+      
+    
+      .docs-button{
+        padding: 20px 15px;
+        background-color: #519DBE;
+        color: #2D3951;
+        border-radius: 10px;
+      }
+    
+      .infoblock, .statsblock{
+        display: block;
+        max-width: 100%;
+        border: 2px solid rgba(255,255,255,0.2);
+        border-radius: 10px;
+        margin: -10px 10px 15px 10px;
+        padding: 10px 5px;
+        overflow-wrap: normal;
+      }
+      */
+      .overlay{
+          width:100%;
+          height: 100%;
+          margin:auto;
+          left:0;
+          top:0;
+          bottom: 0;
+          right: 0;
+          position:absolute;
+          background:#74b1cb;
+          opacity:.2;
+          z-index: 2;
+      }
+    
+      .docs-section{
+        padding: 10px;
+        text-align: center;
+      }
+    
+      .scroll-content {
+        margin-bottom: 0!important;
+      }
+    
+      ion-footer{
+        background-color:rgba(0,0,0,0)!important;
+      }
+    
+      .info-icon{
+        display: block;
+        width: 100%;
+        position: relative;
+        float: right;
+        text-align: right;
+      }
+    
+       .mandate-block{
+         display: block;
+         width: 100%;
+         height: 100%;
+         padding: 5px;
+        background: #F8F8FF;
+        border: thin solid #FFE4E1;
+        }
+    
+        .mandate-block.not-first{
+          border-top: none;
+        }
+    
+        .align-right{
+          float: right;
+        }
+    
+        div[scrollx=true], div[scrolly=true] {
+          position: relative;
+          overflow: hidden;
+        
+          ::-webkit-scrollbar {
+            display: none;
+          }
+        }
+        
+        div[scrollx=true] {
+          overflow-x: auto;
+        }
+        
+        div[scrolly=true] {
+          overflow-y: auto;
+        }
+    
+        .buy-heading{
+          display: block;
+          width: 100%;
+          padding: 0px 5px;
+        }
+    
+        .buy-heading-step-count{
+          display: block;
+          width: auto;
+          float: right !important;
+        }
+    
+        .icon-unchecked{
+          width: 32px;
+          height: 32px;
+          color: rgba(color($colors, secondary), 0.1);
+        }
+    
+        .icon-checked{
+          width: 32px;
+          height: 32px;
+          color: rgba(color($colors, secondary), 1);
+        }
+    
+        .tc-btn-div{
+          display: block;
+          width: 100%;
+          height: 60px;
+          max-height: 80px;
+          padding: 5px 5px; 
+          background: #F8F8FF; 
+          border: thin solid #FFE4E1;
+        }
+    
+        .tc-btn{
+          color: #000 !important;
+        }
+    
+        .tc-button-content{
+          max-width: 80%;
+          float: left !important;
+        }
+    
+        .tc-btn-icon{
+          color: #D8D8D8;
+          font-size: 32px;
+          padding-left: 10px;
+          min-width: 32px;
+          max-width: 18%;
+          float: right !important;
+    
+        }
+    
+        .tc-btn .button-inner{
+          /*display: block; */
+          width: 100% !important; 
+    
+          color: #000000;
+          text-align: left !important;
+        }
+    
+        .one-line{
+          line-height: 40px;
+          width: 100%;
+        }
+    
+        .buy-block-menu-popup{
+          min-width: 65px;
+          background-color: #FFFFFF;
+          border: 1px solid #000000;
+        }
+    
+        .balance-exceeded{
+          display: block;
+          width: 60%;
+          margin-left: auto; 
+          margin-right: auto;
+          background-color: color($colors, danger);
+          color: white;
+          margin-top: 5px;
+          padding: 5px 10px;
+          border-radius: 5px;
+          text-align: center;
+        
+        }
+    
+        .center-text{
+          text-align: center !important;
+        }
+    
+    
+    
+    
+      /****** BUY WIZARD********/
+    
+
+
+
+}

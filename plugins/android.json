@@ -1,0 +1,81 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "com-sarriaroman-photoviewer": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "com.moust.cordova.videoplayer": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-base64-to-gallery": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-clipboard": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-console": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-filepath": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-ionic": {
+      "APP_ID": "10cb93c3",
+      "CHANNEL_NAME": "Master",
+      "WARN_DEBUG": "true",
+      "UPDATE_API": "https://api.ionicjs.com",
+      "UPDATE_METHOD": "background",
+      "MAX_STORE": "2",
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-native-spinner": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-streaming-media": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-youtube-video-player": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "ionic-plugin-keyboard": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    },
+    "cordova-plugin-cleartext": {
+      "PACKAGE_NAME": "com.azuza.app.dev"
+    }
+  },
+  "dependent_plugins": {}
+}

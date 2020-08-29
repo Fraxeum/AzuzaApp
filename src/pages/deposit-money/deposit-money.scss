@@ -1,0 +1,83 @@
+
+
+page-deposit-money{
+
+  .text-input-md{
+    text-align: right !important;
+  }
+
+  
+  .icon-images{
+    max-width: 15vw;
+  }
+
+  .button-icon-top {
+    height: 5em;
+    border: 1px solid white;
+    border-radius: 5px;
+    width: 80% !important;
+
+    .button-inner {
+      flex-flow: column;
+  
+      .icon {
+        margin-bottom: 2px;
+        font-size: 2em;
+      }
+    }
+  }
+
+  .currency-symbol{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .eftreference{
+    display: inline-block;
+    width: 100%;
+    border: 1px solid white;
+    padding: 10px 5px;
+
+  }
+
+  .selected{
+    background-color: white;
+    color: #2C3651!important;
+  }
+
+  .selectedCoinName{
+    color: #000 !important;
+  }
+
+  .unselected{
+    background-color: transparent;
+    color: #fff;
+  }
+
+  ion-select{
+    width: 100%;
+    max-width: 100% !important;
+  }
+
+  
+
+  ion-option{
+    width: 100%;
+    color: white !important;
+  }
+
+  .select-text{
+    color: white !important;
+  }
+
+  .select-md .select-icon .select-icon-inner{
+    color: white !important;
+  }
+
+  ion-input{
+    max-width: 100%;
+    color: white;
+  }
+  
+}

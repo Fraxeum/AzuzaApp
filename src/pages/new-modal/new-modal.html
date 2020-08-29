@@ -1,0 +1,17 @@
+
+<ion-header>
+    <ion-navbar>
+        <ion-title>AZUZA Help</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="dismissModal()">
+                <ion-icon item-right name="close-circle"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="auth-content">
+        <div [innerHTML]="content"></div>
+    </div>
+</ion-content>

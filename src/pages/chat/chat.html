@@ -1,0 +1,57 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon name="menu" color="light"></ion-icon>
+		</button>
+		<ion-title>Get support</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<!--<div *ngIf="showChatList; then showList else showMessage"></div>-->
+
+	<ng-container *ngIf="showChatList == null">
+			<div class="no-data-block">
+			 <h3>	{{ loadingContent }} </h3>
+			</div>
+	</ng-container>
+
+
+	<ng-container *ngIf="showChatList === false">
+		<div class="no-data-block">
+		<h3>	{{ noContentMessage }} </h3>
+		</div>
+	</ng-container>
+
+
+
+	<ng-container *ngIf="showChatList === true">
+		<ion-list>
+			<ion-item *ngFor="let item of chatListData" class="share-list-item">
+				<ion-grid no-padding>
+					<ion-row no-padding (click)="open(item)">
+						<ion-col col-3 no-padding class="list-item-share-action-btn">
+							{{ convertDate(item.msg[item.msg.length-1].datetime) | date:'d/M/yy': 'GMT+2': 'en-GB'}}
+						</ion-col>
+						<ion-col col-8 no-padding class="list-item-share-action-btn">
+							Re: {{ item.Header }}
+						</ion-col>
+						<ion-col col-1 class="text-center">
+							<ion-badge class="item-count-badge text-dark" color="light">{{ item.msg.length }}
+							</ion-badge>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-item>
+		</ion-list>
+
+	</ng-container>
+
+	<div class="bottom" (click)="open()">
+		<button ion-button round outline>
+			<ion-icon class="text-white" name="create"></ion-icon>
+		</button>
+	</div>
+
+
+</ion-content>

@@ -1,0 +1,14 @@
+{
+  "name": "AZUZA Wealth",
+  "short_name": "AZUZA",
+  "start_url": "./?utm_source=web_app_manifest",
+	"orientation": "portrait",
+	"display": "fullscreen",
+  "icons": [{
+    "src": "assets/img/logo.png",
+    "sizes": "1024x1024",
+    "type": "image/png"
+  }],
+  "background_color": "#689EBF",
+  "theme_color": "#689EBF"
+}

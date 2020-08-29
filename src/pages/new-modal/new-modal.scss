@@ -1,0 +1,22 @@
+page-new-modal {
+    ion-content{
+        color: color($colors, light);
+        background: rgb(104,158,191);
+        background: linear-gradient(135deg, rgba(104,158,191,1) 0%, rgba(104,158,191,1) 14%, rgba(44,54,81,1) 100%);
+    }
+
+   span.icon-add-person{
+        background-image: url('../assets/img/md-person-add.svg');
+    }
+    span.icon-add-person1{
+        background-image: url('../../assets/img/md-person-add.svg');
+    }
+    span.icon-add-person2{
+        background-image: url('../../../assets/img/md-person-add.svg');
+    }
+    span.icon-add-person3{
+        background-image: url('../../../../assets/img/md-person-add.svg');
+    }
+    
+    
+}

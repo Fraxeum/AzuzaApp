@@ -1,0 +1,372 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu" color="light"></ion-icon>
+        </button>
+        <ion-title>
+            Portfolio
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ng-container *ngIf="!done_loading">
+    <ion-content>Loading...</ion-content>
+</ng-container>
+<ng-container *ngIf="done_loading">
+    <ion-content>
+        <h3 class="exo2 slides-heading">My Money</h3>
+        <ion-slides class="white-slide">
+            <ion-slide *ngFor="let item of money">
+                <ion-card class="swipecard">
+                    <ion-card-content>
+                        <ion-item class="share-list-item">
+                            <ion-grid no-padding>
+                                <ion-row nowrap no-padding>
+                                    <ion-col col-11 no-padding>
+                                        <ion-grid no-padding>
+                                            <ion-row no-padding>
+                                                <ion-col col-2 align-self-start class="flag-block">
+                                                    <ion-avatar item-start>
+                                                        <div class="{{ getCountryCurrencyClass(item.currency_code) }}">
+                                                            <img src="../assets/flags/blank.gif" alt="" />
+                                                        </div>
+                                                    </ion-avatar>
+                                                </ion-col>
+                                                <ion-col col-10 align-self-end class="padding-bottom-15">
+                                                    <h4 class="large text-white"
+                                                        style="display: block; width: 100%; text-align: right; padding-right: 0px">
+                                                        {{ item.CurrencySymbol + " " + (item.Available | number : '1.2-2') }}
+                                                    </h4>
+                                                    <p class="text-white full-width text-right">
+                                                        {{ getCountryName(item.currency_code) }}</p>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
+                                    </ion-col>
+                                    <ion-col no-padding col-1 class="share-action-btn" no-padding>
+                                        <div class="shares-user-info-item text-center ">
+                                            <ion-icon class="text-white" ios="ios-more" md="md-more"
+                                                (click)="showActionSheet('moneyActions',idx)"></ion-icon>
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-item>
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
+
+        <!-- SHARES SLIDE -->
+        <h3 class="exo2 slides-heading">My Shares</h3>
+        <ion-slides class="white-slide" pager>
+            <div *ngFor="let item of shares, let idx = index">
+                <ion-slide>
+                    <ion-card class="swipecard">
+                        <ion-card-content>
+                            <ion-item class="share-list-item">
+                                <ion-grid>
+                                    <ion-row (click)="shareViewCarousel(idx)">
+                                        <ion-col col-10>
+                                            <div class="shares-item-content-header">
+                                                <h4 class="text-white">
+                                                    {{ item.SPVNAME }}
+                                                </h4>
+                                            </div>
+                                        </ion-col>
+                                        <ion-col col-2>
+                                            <div class="shares-item-content-header">
+                                                <ion-icon name="custom-tap-icon" class="float-right"></ion-icon>
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="market-frame" style="margin-bottom: 10px;">
+                                        <ion-col no-padding col-1 class="share-action-btn">
+                                            <div class="shares-user-info">
+                                                <div class="shares-user-info-item text-center ">
+                                                    <ion-icon *ngIf="item.Lock" class="text-white" name="lock"
+                                                        (click)="TODO_IMPLEMENT_LOCK_INFOPAGE()"></ion-icon>
+                                                </div>
+                                            </div>
+                                        </ion-col>
+                                        <ion-col col-10 class="text-align-left border-bottom"
+                                            (click)="shareViewCarousel(idx)">
+
+                                            <!-- shows shares owned -->
+                                            <div [hidden]="item.showDetail || item.showMarket">
+                                                <ion-grid no-padding>
+                                                    <ion-row class="border-bottom offer-row">
+                                                        <ion-col col-12>
+                                                            <div class="offer-label text-white otop left">My shares
+                                                            </div>
+                                                            <div class="larger text-center text-white offer-value otop">
+                                                                {{ (formatNum(item.Available) + formatNum(item.escrow_in)) | number : '1.0' }}
+                                                            </div>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                    <ion-row class="offer-row">
+                                                        <ion-col col-6 class="border-right">
+                                                            <div class="offer-label text-white obottom left">Shares
+                                                                value
+                                                            </div>
+                                                            <div
+                                                                class="medium text-center text-white offer-value obottom">
+                                                                {{ (item.share_value | currency : 'ZAR': 'R' ) }}</div>
+                                                        </ion-col>
+                                                        <ion-col col-6>
+                                                            <div class="offer-label text-white obottom right">Total
+                                                                value
+                                                            </div>
+                                                            <div
+                                                                class="medium text-center text-white offer-value obottom">
+                                                                {{ ( item.share_value * item.Available ) | currency : 'ZAR': 'R' }}
+                                                            </div>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                </ion-grid>
+                                            </div>
+
+
+                                            <!-- show Market summary -->
+                                            <div [hidden]="item.showMarket || item.showShares">
+
+                                                <ion-grid no-padding>
+                                                    <ion-row class="border-bottom offer-row">
+                                                        <ion-col class="border-right" col-6>
+                                                            <div class="offer-label text-white otop left">Fixed period
+                                                                (S12J)
+                                                            </div>
+                                                            <div class="large text-center text-white offer-value otop">
+                                                                {{ item.escrow_out | number : '1.0'  }}</div>
+                                                        </ion-col>
+                                                        <ion-col col-6>
+                                                            <div class="offer-label text-white otop right">Normal shares
+                                                                (SPV)
+                                                            </div>
+                                                            <div class="large text-center text-white offer-value otop">
+                                                                {{ item.Available | number : '1.0'  }}
+                                                            </div>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                    <ion-row class="offer-row">
+                                                        <ion-col class="padding-5 border-right" col-6>
+                                                            <div class="offer-label text-white obottom left">Bought
+                                                                shares
+                                                                (Escrow)
+                                                            </div>
+                                                            <div
+                                                                class="large text-center text-white offer-value obottom">
+                                                                {{ item.escrow_in  | number : '1.0' }}</div>
+                                                        </ion-col>
+                                                        <ion-col class="padding-5" col-6>
+                                                            <div class="offer-label text-white obottom right">Sold
+                                                                shares
+                                                                (Escrow)
+                                                            </div>
+                                                            <div
+                                                                class="large text-center text-white offer-value obottom">
+                                                                {{ item.escrow_out | number : '1.0'  }}
+                                                            </div>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                </ion-grid>
+
+                                            </div>
+
+                                            <div [hidden]="item.showDetail || item.showShares">
+                                                <ion-grid no-padding>
+                                                    <ion-row class="border-bottom offer-row">
+                                                        <ion-col class="border-right" col-6>
+                                                            <div class="offer-label text-white otop left">Total supply
+                                                            </div>
+                                                            <div class="large text-center text-white offer-value otop">
+                                                                {{ item.Stats.totalOnOffer | number:0.0 }}</div>
+                                                        </ion-col>
+                                                        <ion-col col-6>
+                                                            <div class="offer-label text-white otop right">Bid spread
+                                                            </div>
+                                                            <div class="large text-center text-white offer-value otop">
+                                                                {{ (item.Stats.offerMax - item.Stats.offerMin) | currency : 'ZAR': 'R'  }}
+                                                            </div>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                    <ion-row class="offer-row">
+                                                        <ion-col class="padding-5 border-right" col-6>
+                                                            <div class="offer-label text-white obottom left">Current
+                                                                demand
+                                                            </div>
+                                                            <div
+                                                                class="large text-center text-white offer-value obottom">
+                                                                {{ item.Stats.totalBids | number:0.0 }}</div>
+                                                        </ion-col>
+                                                        <ion-col class="padding-5" col-6>
+                                                            <div class="offer-label text-white obottom right">Last sale
+                                                                {{  convertDate(item.Stats.timestamp) | date: 'd/M/yy': 'GMT+2': 'en-GB' }}
+                                                            </div>
+                                                            <div
+                                                                class="large text-center text-white offer-value obottom">
+                                                                {{ (item.share_value | currency : 'ZAR': 'R' ) }}
+                                                            </div>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                </ion-grid>
+                                            </div>
+
+                                        </ion-col>
+                                        <ion-col no-padding col-1 class="share-action-btn">
+                                            <div class="shares-user-info">
+                                                <div class="shares-user-info-item text-center ">
+                                                    <ion-icon class="text-white" ios="ios-more" md="md-more"
+                                                        (click)="showActionSheet('sharesActions',idx)"></ion-icon>
+                                                </div>
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-item>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-slide>
+            </div>
+        </ion-slides>
+
+        <h3 class="exo2 slides-heading">Current Opportunities</h3>
+
+        <ion-slides class="to-top" pager>
+            <ion-slide>
+                <ion-card class="swipecard fill-blue">
+                    <ion-card-content>
+                        <img src="assets/sections/plastic_recycling_banner.png" (click)="showDetailPage(fab1, 1)" />
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+            <ion-slide>
+                <ion-card class="card-background-page swipecard fill-blue">
+                    <ion-card-content>
+                        <img src="assets/sections/ii09.png" (click)="showDetailPage(fab, 2)" />
+                        <div class="card-title">Create wealth.<br />Save the ocean.</div>
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+            <ion-slide>
+                <ion-card class="card-background-page swipecard fill-blue" (click)="showDetailPage(fab2, 1)">
+                    <ion-card-content>
+                        <div class="card-title">Potential ROI of <br /><span class="emphasis">30%</span></div>
+                        <img src="assets/sections/ii09.png" />
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+            <ion-slide>
+                <ion-card class="card-background-page swipecard fill-blue" (click)="showDetailPage(fab3, 2)">
+                    <ion-card-content>
+                        <div class="card-title">Unique process to recycle "unrecyclable" plastics.</div>
+                        <img src="assets/sections/ii09.png" />
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+            <ion-slide>
+                <ion-card class="card-background-page swipecard fill-blue">
+                    <ion-card-content>
+                        <div class="card-title">Solves a global problem for a global market.</div>
+                        <img src="assets/sections/ii09.png" />
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+            <ion-slide>
+                <ion-card class="card-background-page swipecard fill-blue">
+                    <ion-card-content>
+                        <div class="card-title">Produces high quality, fire proof building materials.</div>
+                        <img src="assets/sections/ii09.png" />
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+            <ion-slide>
+                <ion-card class="card-background-page swipecard fill-blue">
+                    <ion-card-content>
+                        <div class="card-title">Own shares in the buildings, machinery and land.</div>
+                        <img src="assets/sections/ii09.png" />
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
+
+        <ion-slides class="to-top" pager>
+            <ion-slide>
+                <ion-card class="swipecard fill-green" (click)="showDetailPage(false, 2)">
+                    <ion-card-content>
+                        <img src="assets/sections/sustainable_farming_banner.png" />
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+            <ion-slide>
+                <ion-card class="card-background-page swipecard fill-green">
+                    <ion-card-content>
+                        <div class="card-title">Own a share in the company.</div>
+                        <img src="assets/sections/sf08.png" />
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+
+            <ion-slide>
+                <ion-card class="card-background-page swipecard fill-green">
+                    <ion-card-content>
+                        <div class="card-title">Own a share in the land.</div>
+                        <img src="assets/sections/sf08.png" />
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+
+            <ion-slide>
+                <ion-card class="card-background-page swipecard fill-green">
+                    <ion-card-content>
+                        <img src="assets/sections/sf08.png" />
+                        <div class="card-title">Earn returns.<br />Up to 24% p/a.</div>
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+            <ion-slide>
+                <ion-card class="card-background-page swipecard fill-green">
+                    <ion-card-content>
+                        <img src="assets/sections/sf08.png" />
+                        <div class="card-title">Support<br />Sustainable Farming.</div>
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+            <ion-slide>
+                <ion-card class="card-background-page swipecard fill-green">
+                    <ion-card-content>
+                        <img src="assets/sections/sf08.png" />
+                        <div class="card-title">Get Tax Breaks.<br />Or Trade Anytime.</div>
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+
+        </ion-slides>
+
+        <h3 class="exo2 slides-heading">Coming Opportunities</h3>
+
+        <ion-slides class="to-top" pager>
+            <ion-slide>
+                <ion-card class="swipecard">
+                    <ion-card-content>
+                        <img src="assets/sections/clean_energy_banner.png" />
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
+
+        <ion-slides class="to-top" pager>
+            <ion-slide>
+                <ion-card class="swipecard">
+                    <ion-card-content>
+                        <img src="assets/sections/job_creation_banner.png" />
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
+
+    </ion-content>
+    <div>
+        <shared-buywizard *ngIf="buyWizard.showBuyPopup"></shared-buywizard>
+    </div>
+</ng-container>

@@ -1,0 +1,165 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu" color="light"></ion-icon>
+    </button>
+    <ion-title>{{ walletName }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ng-template [ngIf]="formattedEventList == null && accountList ==  null">
+    <div class="infoblock">
+      <p class="text-white text-center">
+        Loading...
+      </p>
+    </div>
+  </ng-template>
+
+
+  <ng-template [ngIf]="showNoTransactionsMessage">
+    <div class="infoblock">
+      <p class="text-white text-center">
+        {{noTransactionsMessage}}
+      </p>
+    </div>
+  </ng-template>
+
+  <ng-template [ngIf]="showAccountList">
+    <h3 class="section-heading exo2">Azuza Wealth Wallets</h3>
+    <div class="infoblock">
+      <p class="text-white text-center">
+        A wealth wallet lets you group your assets into logical sets. You can create up to 5 free personalised wallets.
+      </p>
+    </div>
+    <ion-list>
+      <ion-item *ngFor="let item of accountList; let i = index" class="share-list-item">
+        <ion-grid vertical-padding>
+          <ion-row style="padding-top: 5px;">
+            <ion-col col-11 (click)="loadTransactionData(item.WalletId, false, i)">
+              <div style="clear: right">
+                <b>{{ item.Name }} </b><br />
+              </div>
+              <span class="smaller">
+                {{ item.NodeAddress }}
+              </span>
+            </ion-col>
+            <ion-col col-1 text-center text-wrap class="share-action-btn">
+              <div class="shares-user-info-item text-center ">
+                <ion-icon class="text-white" ios="ios-more" md="md-more" (click)="showWalletOptions(i)"></ion-icon>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+
+  <ng-template [ngIf]="showTransactionList">
+    <div class="legend-line">
+      <div class="text-white small float-left" (click)="emailMyStatement()">
+        <ion-icon name="custom-tap-icon"></ion-icon>&nbsp;
+        <span class="text-white">Tap item for detail</span>
+      </div>
+      <div class="text-white small float-right" (click)="emailMyStatement()">
+        <ion-icon class="text-white" name="mail"></ion-icon>&nbsp;
+        <span class="text-white">Email statement</span>
+      </div>
+    </div>
+
+
+    <div *ngFor="let event of eventKeys">
+      <h3 class="section-heading exo2">{{ event | titlecase }}</h3>
+      <ion-list>
+        <ion-item *ngFor="let item of formattedEventList[event]; let i = index" class="share-list-item">
+          <ion-grid vertical-padding (click)="toggleDetail(event, i)">
+            <ion-row style="padding-top: 5px;">
+              <ion-col no-padding>
+                <ion-grid no-padding>
+                  <ion-row no-padding>
+                    <ion-col col-9 no-padding>
+                      <b>{{ item.trxDescription }}</b>
+                    </ion-col>
+                    <ion-col col-3>
+                      <span class="float-right"><b>{{ item.trxValue }}</b></span>
+                      <br /><span class="float-right smaller"
+                        style="padding-right: 5px">{{ item.trxTimestamp | date:'short':'GMT+2':'en-ZA' }}</span>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+                <ion-grid no-padding *ngIf="item.showDetail">
+                  <ion-row *ngIf="item.fromAddress" no-padding>
+                    <ion-col col-2 no-padding class="smaller">
+                      <ion-item class="smaller">
+                        {{ item.fromLabel }}
+                      </ion-item>
+                    </ion-col>
+                    <ion-col no-padding class="smaller">
+                      <ion-item class="smaller">
+                        {{ item.fromAddress }}
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="item.toAddress" no-padding>
+                    <ion-col col-2 no-padding class="smaller">
+                      <ion-item class="smaller">
+                        {{ item.toLabel }}
+                      </ion-item>
+                    </ion-col>
+                    <ion-col no-padding class="smaller">
+                      <ion-item class="smaller">
+                        {{ item.toAddress }}
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row padding-vertical (click)="exploreBlockchain(item.trxId)">
+                    <ion-col col-2 no-padding class="smaller">
+                      <ion-item class="smaller">
+                        Ref:</ion-item>
+                    </ion-col>
+                    <ion-col col-9 class="left smaller" no-padding>
+                      <ion-item class="smaller">
+                        {{ item.trxId }}
+                      </ion-item>
+                    </ion-col>
+                    <ion-col col-1 class="text-white text-center item-icon smaller" no-padding>
+                      <ion-icon name="ios-link"></ion-icon>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ng-template>
+
+  <!--<ion-infinite-scroll threshold="100px" (ionInfinite)="$event.waitFor(loadData())">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>-->
+
+  <!-- END SPV LIST-->
+  <ion-fab right bottom #fab>
+    <button mini ion-fab color="success" (click)="addWallet()">
+      <ion-icon class="light-button-icon" class="text-white" name="add"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-fab left bottom #fab>
+    <button mini ion-fab color="light">
+      <ion-icon class="light-button-icon" name="menu"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+
+      <button mini ion-fab color="secondary" (click)="back(fab)">
+        <ion-icon name="undo"></ion-icon>
+        <ion-label class="popup-label"><span>Back</span></ion-label>
+      </button>
+    </ion-fab-list>
+
+  </ion-fab>
+
+
+
+</ion-content>

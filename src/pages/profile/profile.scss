@@ -1,0 +1,62 @@
+page-profile {
+    
+        
+    ion-input, form, input, optgroup, select, .text-input-md{
+        color: white !important;
+        padding: 0px 10px !important;
+        text-align: left;
+    }
+        
+
+    ion-select, .select-icon, .select-text{
+        color: white !important;
+        padding: 5px 10px !important;
+    }
+    
+    ion-item.accountItems{
+        margin-left: -10px; width: 110%;
+        padding-left: 10px;
+        padding-right: 20px;
+    }
+
+    .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+        outline: 0;
+        border-bottom-color: transparent;
+    }
+
+    .item-md.item-input.item-input-has-focus .item-inner, page-profile .item-md.item-input.item-input-has-focus .item-inner {
+        outline: 0;
+        border-bottom-color: white !important;
+        box-shadow: none !important;
+    }
+ 
+    div:active, div:focus, *:active, *:focus{
+        outline: 0;
+        border: transparent !important;
+    }
+
+    .label-md {
+        margin: 0;
+    }
+
+    .share-list-item{
+        padding: 5px 10px 10px;
+    }
+
+    .shares-user-info{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .shares-user-info-item{
+        flex: 1;
+    }
+
+    form{
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+    
+    
+    
+}

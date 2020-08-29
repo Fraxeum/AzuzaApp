@@ -1,0 +1,48 @@
+<ion-header>
+      <ion-navbar>
+            <!-- <button ion-button menuToggle>
+                  <ion-icon name="menu" color="primary"></ion-icon>
+            </button> -->
+            <ion-title>
+                  <span ion-text color="primary">Network problem</span>
+            </ion-title>
+      </ion-navbar>
+</ion-header>
+
+<ion-content class="profile light-bg">
+
+      <ion-grid fixed>
+            <ion-row>
+                  <ion-col>
+                        <ion-card padding>
+                              <ion-card-header style="text-align: center;">
+
+                                    <ion-icon name="alert" style="color:#0870b8;font-size: 10.2em;"></ion-icon>
+
+                              </ion-card-header>
+                              <ion-card-content>
+
+                                    <p text-center style="color:gray;">
+                                          A network problem is preventing the DreamBlock app from connecting to the servers.
+                                    </p>
+
+                                  
+
+                              </ion-card-content>
+                              <div style="text-align:center">
+                              <button ion-button icon-start color="primary" (click)="exitApp()">
+                                         
+                                    Close application
+                                </button>
+                              </div>
+
+
+                        </ion-card>
+
+                  </ion-col>
+            </ion-row>
+      </ion-grid>
+
+
+
+</ion-content>

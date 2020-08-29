@@ -1,0 +1,29 @@
+accordion {
+
+    .card-md{
+        margin: 0px !important;
+    }
+
+    .card-header{
+        background-color: map-get($colors, tertiary);
+        color: #000;
+    }
+    .card-content {
+        max-height: 0px;
+        /*background-color: rgba(255,255,255,0.4);*/
+        display: none;
+        padding: 0px;
+        border-left: 1px solid rgba(255,255,255,0.1);
+        border-right: 1px solid rgba(255,255,255,0.1);
+    }
+    .card-md .item-md.item-block .item-inner {
+        border-bottom: none;
+        padding: 0 10px;
+    }
+
+    .card-header-md{
+        padding: 0px;
+    }
+}
+
+    

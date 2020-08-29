@@ -1,0 +1,259 @@
+page-otc-negotiation-popup {
+
+ /*   [padding] h3:first-child {
+        margin-top: 10px!important;
+    }*/
+    
+    ion-content{
+      background: rgb(104,158,191);
+	    background: linear-gradient(135deg, rgba(104,158,191,1) 0%, rgba(104,158,191,1) 14%, rgba(44,54,81,1) 100%);
+    }
+
+    ion-content{
+        color: white;
+    }
+
+    .intro-text{
+      background-color: rgba(44, 54, 81, 0.3);
+      padding-left: 5px; 
+      padding-right: 5px;
+    }
+
+  
+    .medium{
+        font-size: medium;
+    }
+
+    .super-large{
+        margin: 10px auto 5px auto;
+        font-size: xx-large !important;
+    }
+
+    .offer-card{
+        background-color: rgba(255,255,255,1) !important;
+        border-radius: 5px;
+        margin-top: 5px;
+        
+    }
+
+    .item-md.item-block .item-inner{
+        border-bottom: none !important;
+    }
+
+    .margin-top-30{
+        margin-top: 30px !important;
+    }
+
+    .margin-top-10{
+      margin-top: 10px !important;
+  }
+
+
+    .lightblue{
+      background-color: #539CC2 !important;
+    }
+
+
+    /*
+    .amount-input-field{
+      width: 100%;
+      text-align: center;
+      position: relative;
+      font-size: x-large;
+      font-weight: 700;
+      color: color($colors, dark);
+      margin: 15px auto 10px auto;
+  
+      /*background-color: rgba(color($colors, light),0.15);*/
+      /*border-bottom: 1px solid color($colors, light);
+      text-align: center !important;
+
+      --placeholder-color: rgba(255,255,255,0.15);
+    }
+*/
+    .text-input::-webkit-input-placeholder {
+      text-align: center;
+    }
+    
+    .text-input:-moz-placeholder {
+      text-align: center;
+    }
+    
+    .text-input::-moz-placeholder {
+      text-align: center;
+    }
+    
+    .text-input:-ms-input-placeholder {
+      text-align: center;
+    }
+
+    .shares-input{
+      text-align: right !important; 
+      margin-bottom: 3px;
+    }
+
+    .shares-input-label, .fiat-input-label{
+      font-size: small;
+      text-align: left;
+      margin: 0;
+      padding-top: 65%;
+      font-weight: bold;
+      color: #000;
+    }
+
+
+  .shares-user-info-item{
+    flex: 1;
+  }
+
+  .offer-label{
+    font-size: x-small !important;
+}
+
+.note{
+  font-size: xx-small !important;
+  color: rgba(0,0,0,0.75);
+}
+
+.large{
+  font-size: large;
+}
+
+
+  .share-action-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.shares-user-info{
+  display: flex;
+  flex-direction: column;
+}
+
+    /*** CHAT BUBBLES ***/
+
+  $userBackgroundColor: color($colors, primary);
+  $toUserBackgroundColor: color($colors, tertiary);
+
+  .line-breaker {
+    white-space: pre-line;
+	}
+
+	.txt-chat {
+		height: 55px;
+  }
+
+  .message-wrap {
+
+    .salutation{
+        margin-top: 20px;
+    }
+
+    
+
+    .message {
+      position: relative;
+      padding: 7px 0;
+     
+      .msg-detail {
+        width: 100%;
+        display: inline-block;
+        p {
+          margin: 0;
+        }
+        .msg-info p {
+            font-size: .8em;
+            color: #fff;
+          }
+        
+
+        .msg-content {
+          position: relative;
+          margin-top: 0px;
+          border-radius: 5px;
+          padding: 8px 12px 8px 12px;
+          
+          width: auto;
+          max-width: 95%;
+          span.triangle {
+            background-color: #fff;
+            // border-radius: 2px;
+            height: 8px;
+            width: 8px;
+            top: 12px;
+            display: block;
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+            position: absolute;
+          }
+        }
+
+      }
+    }
+
+
+
+    .message.left {
+
+      .msg-content {
+        background-color: color($colors, secondary);
+    
+        float: left;
+      }
+      .msg-detail {
+        padding-left: 10px;
+      }
+      .msg-info{
+        padding-left: 15px !important;
+      }
+
+      .msg-content, .msg-content span {
+        color: #343434;
+        span.triangle {
+          background-color: color($colors, secondary);
+          border-top-width: 0;
+          border-right-width: 0;
+          left: -5px;
+        }
+      }
+
+      .message-content p span{
+          color: color($colors, dark) !important;
+      }
+
+    }
+
+    .message.right {
+      .msg-detail {
+        padding-right: 10px;
+      }
+    
+      .msg-info {
+        text-align: right;
+        padding-right: 15px !important;
+      }
+
+      ion-spinner {
+        position: absolute;
+        right: 10px;
+        top: 50px;
+      }
+      .msg-content, .msg-content span {
+        background-color: #fff;
+        color: #343434;
+        float: right;
+        span.triangle {
+          background-color: #fff;
+          border-bottom-width: 0;
+          border-left-width: 0;
+          right: -5px;
+        }
+      }
+
+       
+
+    }
+
+  }
+}

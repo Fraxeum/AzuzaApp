@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu" color="light"></ion-icon>
+    </button>
+    <ion-title>Support Chat</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  
+
+  <ng-container *ngIf="!showChatList()">
+    <div class="no-data-block">
+     {{ noContentMessage }}
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="showChatList()">
+    <div class="legend-line">
+      <div class="text-white small float-right" (click)="emailMyStatement()">
+          <ion-icon class="text-white" name="mail"></ion-icon>&nbsp;
+        <span class="text-white">Email statement</span>
+      </div>
+      <div class="text-white small float-left">
+        <ion-icon class="text-white" name="lock"></ion-icon>&nbsp;Escrow&nbsp;
+      </div>
+    </div>
+    <ion-list *ngIf="chatListData.length > 0">
+      <ion-item *ngFor="let item of chatListData" class="share-list-item" text-wrap>
+        <ion-grid>
+          <ion-row (click)="openBlockchain(item.txID)" class="text-white">
+            <ion-col col-2 class="text-white text-center">{{ convertDate(item.TimeStamp) | date:'d/M': 'GMT+2': 'en-GB'}}<br/>
+            <span class="text-white smaller margin-top-Neg3">{{ convertDate(item.TimeStamp) | date:'yyyy': 'GMT+2': 'en-GB'}}</span></ion-col>
+            <ion-col col-6 class="text-white">
+              {{ createTitle(item.DC, item.Currency, item.SPVName, item.title) }}
+            </ion-col>
+            <ion-col col-4 class="right text-white">
+              {{ item.DC == "D" ? "-" : "+" }}{{ item.Currency === 'ZAR' ? (item.Total | currency : 'ZAR': 'R') :  (item.Total | number : '1.0-0') }}<br/>
+              <span class="text-white smaller margin-top-Neg3">{{ item.Currency != 'ZAR' ? item.Currency : ''}}</span> 
+            </ion-col>
+          </ion-row> 
+          
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+    
+  </ng-container>
+
+  <!-- END SPV LIST-->
+  <ion-fab left bottom #fab>
+    <button mini ion-fab color="light">
+      <ion-icon class="light-button-icon" name="menu"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+
+      <button mini ion-fab color="secondary" (click)="closeMarket(fab)">
+        <ion-icon name="home"></ion-icon>
+        <ion-label class="popup-label"><span>Home</span></ion-label>
+      </button>
+
+      <button mini ion-fab color="secondary" (click)="closeMarket(fab)">
+        <ion-icon name="mail"></ion-icon>
+        <ion-label class="popup-label"><span>Email statement</span></ion-label>
+      </button>
+
+      <button mini ion-fab color="secondary" (click)="showHelp(fab)">
+        <ion-icon name="help"></ion-icon>
+        <ion-label class="popup-label"><span>Help</span></ion-label>
+      </button>
+
+    </ion-fab-list>
+
+  </ion-fab>
+
+  <ion-fab right bottom>
+      <button ion-fab mini color="secondary" (click)="newticket()">
+          <ion-icon class="text-white" name="md-create"></ion-icon>
+      </button>
+  </ion-fab>
+
+  
+
+</ion-content>
+
+

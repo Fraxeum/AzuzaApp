@@ -1,0 +1,31 @@
+
+page-message{
+    .card-content-md{
+    padding: 0px !important; 
+    font-size: normal; 
+    line-height: inherit;
+    }
+
+    .shares-user-info{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .shares-user-info-item{
+        flex: 1;
+    }
+
+    .share-list-item{
+        margin-top: 0px;
+    }
+
+    .padding-LR-5{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .select-text{
+        color: white;
+        padding-right: 10px;
+    }
+}

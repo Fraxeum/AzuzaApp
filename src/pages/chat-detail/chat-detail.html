@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu" color="light"></ion-icon>
+    </button>
+    <ion-title>Support message</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ng-container *ngIf="topics != null">
+    <div class="message-wrap" no-padding>
+     
+      <div class="message left" style="margin-top: 10px">
+        <div class="msg-detail">
+          <div class="msg-content">
+            <span class="triangle"></span>
+            <p class="text-black line-breaker ">{{ chatItem.msg[0].msg }}</p>
+          </div>
+        </div>
+      </div>
+
+      <ion-list *ngIf="showTopics" style="margin-top: 10px">
+        <ion-item no-padding class="share-list-item" *ngFor="let item of topics, let idx = index"
+          (click)="setTopic(idx, item.Name, item.value)">
+          <ion-label class="text-white">{{item.Name}}</ion-label>
+          <ion-icon name="ios-checkmark-circle-outline" item-end *ngIf="item.selected"></ion-icon>
+        </ion-item>
+      </ion-list>
+
+      <div *ngIf="showTopics && chatItem.msg.length > 1">
+        <div *ngFor="let item of chatItem.msg | slice:1">
+          <div class="message left">
+            <div class="msg-detail">
+              <div class="msg-content">
+                <span class="triangle"></span>
+                <p class="text-black line-breaker ">{{ item.msg }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="topics == null">
+    <div class="message-wrap" padding>
+
+      <div *ngFor="let item of chatItem.msg">
+        <div [ngClass]="(chatItem.MemberId == item.SenderId ) ? 'message right':'message left' ">
+          <div class="msg-detail">
+            <div class="msg-content">
+              <span class="triangle"></span>
+              <p class="text-black line-breaker">{{item.msg}}</p>
+            </div>
+          </div>
+          <div class="msg-info">
+            <p class="text-white smallest" style="margin-top: 0px;">
+              {{ chatItem.MemberId == item.SenderId ? 'You' : 'AZUZA' }} 
+              {{ item.datetime == "now" ? "now" : " on "+( convertDate(item.datetime) | date:'d/M/yy hh:mm': 'GMT+2': 'en-GB' ) }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </ng-container>
+
+</ion-content>
+
+<ion-footer *ngIf="chatItem.msg && chatItem.msg.length > 0 && chatItem.msg[chatItem.msg.length-1].canReply == 1">
+  <ion-toolbar>
+    <ion-grid no-margin>
+      <ion-row no-margin>
+        <ion-col col-10 no-margin no-padding>
+          <ion-item no-padding>
+            <ion-textarea placeholder="Type a message..." [(ngModel)]="message" name="message" rows="2"
+              class="txt-chat text-white"></ion-textarea>
+          </ion-item>
+        </ion-col>
+        <ion-col col-2 no-margin no-padding class="sendbox">
+          <button [disabled]="this.supporttopicid < 0" class="send-button" (click)="send()" small ion-button tappable icon-only>
+            <ion-icon color="light" name="send"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </ion-toolbar>
+</ion-footer>

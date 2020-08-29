@@ -1,0 +1,37 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon name="menu" color="light"></ion-icon>
+		</button>
+		<ion-title>Support message</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<ion-grid no-padding>
+		<ion-row nowrap no-padding>
+			<ion-col col-12 no-padding>
+
+				<ion-item class="share-list-item padding-LR-5">
+					<ion-label class="text-white">Set support topic</ion-label>
+					<ion-select>
+						<ion-option *ngFor="let item of chatListTopics" value="{{item.value}}">
+							{{item.Name}}
+						</ion-option>
+					</ion-select>
+				</ion-item>
+
+				<ion-item class="share-list-item">
+					<ion-textarea [(ngModel)]="message" placeholder="Type your message" rows="4" maxLength="5000" autocomplete="on"
+						autocorrect="on"></ion-textarea>
+				</ion-item>
+				<div style="margin-top: 11px;">
+					<button ion-button block (click)="send()" color="secondary"
+						[disabled]="message != null && message.length > 10">Send</button>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+</ion-content>

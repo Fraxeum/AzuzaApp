@@ -1,0 +1,501 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu" color="light"></ion-icon>
+    </button>
+    <ion-title>Market Place</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- CONTAINER -->
+  <div class="tab-container">
+
+    <!-- SPV LIST -->
+    <div *ngIf="currentPage === 'marketlist'">
+
+      <div class="infoblock">
+        <p class="text-white">
+          The AZUZA OTC market allows you to buy shares directly from sellers. Start by select a company that you are
+          interested in.
+        </p>
+      </div>
+      <div *ngIf="marketListData.length > 0; then showMarketList else hideMarketList"></div>
+
+      <ng-template #hideMarketList>
+        <ion-list>
+          <button class="market-list-item-button">
+            Loading...
+          </button>
+        </ion-list>
+      </ng-template>
+
+
+      <ng-template #showMarketList>
+        <div class="heading-block">
+          <h4 class="exo2 section-heading">Shares on offer</h4>
+        </div>
+
+        <ion-list>
+          <ion-item *ngFor="let item of marketListData" class="share-list-item">
+            <ion-grid no-padding>
+              <ion-row no-padding>
+                <ion-col col-9 no-padding class="list-item-share-action-btn" (click)="fetchAllData(item.Asset, true)">
+                  {{ item.Name }}
+                </ion-col>
+                <ion-col col-2 class="text-center">
+                  <ion-badge class="item-count-badge">{{ item.Count }}</ion-badge>
+                </ion-col>
+                <ion-col col-1 class="text-center text-white">
+                  <ion-icon class="text-white" ios="ios-more" md="md-more" (click)="listActionSheet(idx, item.Asset)">
+                  </ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
+      </ng-template>
+
+    </div>
+  </div>
+
+  <!-- END SPV LIST-->
+
+  <!-- LIST SPECIFIC SPV SELL OFFERS -->
+
+  <ion-slides *ngIf="currentPage != 'marketlist'">
+    <ion-slide>
+      <div *ngIf="allSellOrderData.length > 0; then showTradeList else hideTradeList"></div>
+
+      <ng-template #hideTradetList>
+        <div class="no-content-message">List of Companies</div>
+      </ng-template>
+
+      <ng-template #showTradeList>
+        <ion-item>
+            <ion-label class="share-name">
+                <h3 class="exo2">{{ currentSPVName }} shares 
+                  <ion-icon class="float-right" *ngIf="myOffersToPurchaseList.length > 0 || numOffersReceived > 0"
+                    name="ios-arrow-forward"></ion-icon></h3>
+              </ion-label>
+        </ion-item>
+
+        <!-- graph -->
+        <ion-card style="background-color: rgba(255,255,255,0.8)">
+          <ion-card-content>
+            <canvas #lineCanvas id="lineCanvas"></canvas>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- icon legend -->
+        <div class="legend-line">
+          <div class="text-white small float-left">
+            <ion-icon class="text-white" name="contact"></ion-icon>&nbsp;Your ads&nbsp;
+            <ion-icon class="text-white" style="padding-left: 5px" name="contacts"></ion-icon>&nbsp;Other
+            sellers&nbsp;
+          </div>
+        </div>
+
+
+        <ion-list *ngIf="allSellOrderData && !showOffersFromBuyers">
+          <ion-item class="share-list-item" *ngFor="let item of allSellOrderData; let idx = index;"
+            [ngClass]=" item.hide ? 'hide-item' : '' ">
+
+            <ion-grid no-padding>
+              <ion-row no-padding #showSellersTrade>
+                <ion-col col-1 no-padding class="share-action-btn">
+                  <div class="shares-user-info">
+                    <div class="shares-user-info-item text-center ">
+                      <ion-icon class="text-white" name="contacts" *ngIf="item.userid != myMemberID"></ion-icon>
+                      <ion-icon class="text-white" secondary name="contact" *ngIf="item.userid == myMemberID">
+                      </ion-icon>
+                    </div>
+                  </div>
+                </ion-col>
+                <ion-col col-5 class="share-content border-right" (click)="handleRowClick(item.uid, item.userid, idx)"
+                  no-padding>
+                  <ion-grid no-padding>
+                    <ion-row no-padding class="border-bottom" style="padding-bottom: 1rem">
+                      <ion-col col-12 no-padding class="padding-5 padding-bottom-10">
+
+                        <div class="full-width offer-label left text-white ">Shares for sale: </div>
+                        <div class="full-width large margin-top-5 text-white text-center">
+                          {{ item.left | number : '1.0' }}</div>
+
+                      </ion-col>
+                    </ion-row>
+                    <ion-row no-padding>
+                      <ion-col col-12 no-padding>
+                        <div class="offer-label margin-top-5 text-white">Price per share: </div>
+                        <div class="large margin-top-5 text-white text-center">
+                          {{ item.price ? ( item.price | currency : 'ZAR': 'R' )  : 'N/A'  }}
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row no-padding>
+                      <ion-col col-12 no-padding>
+                        <div class="note text-white  text-center">
+                          {{ convertDate(item.TimeStamp) | date:'d/M/yy': 'GMT+2': 'en-GB'}}
+                          {{ convertDate(item.TimeStamp) | date:'shortTime':'GMT+2':'en-GB' }}
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                 
+
+                </ion-col>
+                <ion-col col-5 class="share-content" (click)="handleRowClick(item.uid, item.userid, idx)">
+                  <ion-grid no-padding *ngIf="item.offers">
+                    <ion-row no-padding class="border-bottom" style="padding-bottom: 1rem">
+                      <ion-col col-12 no-padding class="padding-5 padding-bottom-10">
+                        <div class="offer-label right text-white" *ngIf="myMemberID === item.userid">Your ask</div>
+                        <div class="offer-label right text-white" *ngIf="myMemberID != item.userid">Seller's ask</div>
+                        <div class="large margin-top-5 text-white text-center">
+                          {{ (item.offers && item.offers[0]) ? ( item.offers[0].lastselleroffer | currency : 'ZAR': 'R' ) : ( item.price | currency : 'ZAR': 'R' )  }}
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row no-padding>
+                      <ion-col col-12 no-padding>
+                        <div class="offer-label margin-top-5 right text-white" *ngIf="myMemberID != item.userid">Your
+                          offer
+                        </div>
+                        <div class="offer-label margin-top-5 right text-white" *ngIf="myMemberID === item.userid">
+                          Buyer's
+                          best</div>
+                        <div class="large margin-top-5 text-white text-center">
+                          {{ checkOfferElementExists(idx) ? ( item.offers[0].lastbuyeroffer | currency : 'ZAR': 'R' ) : 'R ----' }}
+                        </div>
+                        <div class="note text-white text-center">
+                          {{ checkOfferElementExists(idx) ? (convertDate(item.offers[0].ModifyDate) | date:'d/M/yy': 'GMT+2': 'en-GB') : "" }}
+                          {{ checkOfferElementExists(idx) ? (convertDate(item.offers[0].TimeStamp) | date:'shortTime':'GMT+2':'en-GB') : "" }}
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row no-padding>
+                      <ion-col col-12 no-padding>
+                        <!--<div class="note text-white  text-center">
+                          {{ convertDate(item.TimeStamp) | date:'d/M/yy': 'GMT+2': 'en-GB'}}
+                          {{ convertDate(item.TimeStamp) | date:'shortTime':'GMT+2':'en-GB' }}
+                        </div>-->
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+
+                  <ion-grid no-padding *ngIf="!item.offers">
+                    <ion-row no-padding class="border-bottom">
+                      <ion-col col-12 no-padding class="padding-5 padding-bottom-10">
+                        <div class="offer-label right text-white" *ngIf="myMemberID != item.userid">Seller's ask</div>
+                        <div class="offer-label right text-white" *ngIf="myMemberID === item.userid">Your ask</div>
+                        <div class="large margin-top-5 text-white text-center">
+                          {{ item.price ? ( item.price | currency : 'ZAR': 'R' )  : 'N/A'  }}
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row no-padding>
+                      <ion-col col-12 no-padding>
+                        <div class="offer-label margin-top-5 right text-white" *ngIf="myMemberID != item.userid">Your
+                          offer
+                        </div>
+                        <div class="offer-label margin-top-5 right text-white" *ngIf="myMemberID === item.userid">
+                          Buyer's
+                          best</div>
+                        <div class="large margin-top-5 text-white text-center">R ---- </div>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row no-padding>
+                      <ion-col col-12 no-padding>
+                        <div class="note text-white text-center">
+                          {{ convertDate(item.TimeStamp) | date:'d/M/yy': 'GMT+2': 'en-GB'}}
+                          {{ convertDate(item.TimeStamp) | date:'shortTime':'GMT+2':'en-GB' }}
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                  
+                </ion-col>
+
+                <ion-col no-padding col-1 class="share-action-btn">
+                  <div class="shares-user-info">
+                    <div class="shares-user-info-item text-center ">
+                      <ion-icon class="text-white" ios="ios-more" md="md-more"
+                        (click)="showActionSheet(item.uid, item.userid, idx)"></ion-icon>
+                    </div>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+
+        </ion-list>
+
+        <ion-list *ngIf="allSellOrderData && showOffersFromBuyers">
+
+          <ion-item class="share-list-item" *ngFor="let item of offersFromBuyersData; let idx = index;"
+            [ngClass]=" item.hide ? 'hide-item' : '' ">
+
+            <ion-grid no-padding>
+              <ion-row no-padding #showSellersTrade>
+                <ion-col col-1 no-padding class="share-action-btn">
+                  <div class="shares-user-info">
+                    <div class="shares-user-info-item text-center ">
+                      <ion-icon [ngClass]="getSellerOfferItemClass(idx)" name="star"></ion-icon>
+                    </div>
+                    <div class="shares-user-info-item text-center "
+                      *ngIf="item.ResponseCount && (parseInt(item.ResponseCount.open)) > 0">
+                      <ion-badge class="text-white">
+                        {{ item.ResponseCount && item.ResponseCount.open ? item.ResponseCount.open : 0 }}</ion-badge>
+                    </div>
+                  </div>
+                </ion-col>
+                <ion-col col-5 class="share-content border-right" (click)="openBuyerOfferItem(idx, item.uid)">
+
+                  <div class="share-item-numshares">
+                    <div class="offer-label left text-white">Shares wanted</div>
+                    <div class="large margin-top-5 text-white">{{ item.amount | number : '1.0' }}</div>
+
+                    <div class="offer-label margin-top-5 text-white">Original price</div>
+                    <div class="large margin-top-5 text-white">
+                      {{ allSellOrderData[currentIndex].price ? ( allSellOrderData[currentIndex].price | currency : 'ZAR': 'R' )  : 'N/A'  }}
+                    </div>
+
+                    <div class="note text-white">
+                      {{ convertDate(item.TimeStamp) | date:'d/M/yy': 'GMT+2': 'en-GB'}}
+                      {{ convertDate(item.TimeStamp) | date:'shortTime':'GMT+2':'en-GB' }}
+                    </div>
+                  </div>
+
+                </ion-col>
+                <ion-col col-5 class="share-content" (click)="openBuyerOfferItem(idx, item.uid)">
+
+                  <div class="share-item-numshares" *ngIf="item.Counter">
+                    <div class="offer-label right text-white">Your ask</div>
+                    <div class="large margin-top-5 right text-white">
+                      {{ item.lastselleroffer ? ( item.lastselleroffer | currency : 'ZAR': 'R' ) : item.price  }}
+                    </div>
+
+                    <div class="offer-label margin-top-5 right text-white">Price offered</div>
+                    <div class="large margin-top-5 right text-white">
+                      {{ (item.lastbuyeroffer | currency : 'ZAR': 'R')  }}
+                    </div>
+                    <div class="note right text-white">
+                      {{ convertDate(item.ModifyDate) | date:'d/M/yy': 'GMT+2': 'en-GB'}}
+                      {{ convertDate(item.ModifyDate) | date:'shortTime':'GMT+2':'en-GB' }}</div>
+                  </div>
+
+                </ion-col>
+
+                <ion-col no-padding col-1 class="share-action-btn">
+                  <div class="shares-user-info">
+                    <div class="shares-user-info-item text-center ">
+                      <ion-icon class="text-white" ios="ios-more" md="md-more"
+                        (click)="showBuyOffersActionSheet(item.uid, item.userid, idx)"></ion-icon>
+                    </div>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+          </ion-item>
+        </ion-list>
+      </ng-template>
+    </ion-slide>
+
+    <!--<div  *ngSwitchCase="'mybids'"></div>-->
+    <ion-slide *ngIf="myOffersToPurchaseList.length > 0">
+      <h4 class="text-white text-center">My open offers to buy shares</h4>
+      <ion-icon class="text-white float-left" name="ios-arrow-dropleft-circle-outline"></ion-icon>
+      <ion-icon class="text-white float-right" *ngIf="allMySellOrdersList.length > 0"
+        name="ios-arrow-dropright-circle-outline"></ion-icon>
+      <ion-list>
+        <ion-item class="share-list-item" *ngFor="let item of myOffersToPurchaseList; let idx = index;">
+
+          <ion-grid no-padding>
+            <ion-row no-padding #showSellersTrade>
+              <ion-col col-1 no-padding class="share-action-btn">
+                <div class="shares-user-info">
+                  <div class="shares-user-info-item text-center ">
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+              </ion-col>
+              <ion-col col-5 class="share-content border-right" (click)="openBuyerOfferItem(idx, item.uid)">
+
+                <div class="share-item-numshares">
+                  <div class="offer-label left text-white">Shares wanted</div>
+                  <div class="large margin-top-5 text-white">{{ item.amount | number : '1.0' }}</div>
+
+                  <div class="offer-label margin-top-5 text-white">Original price</div>
+                  <div class="large margin-top-5 text-white">
+                    {{ item.price ? ( item.price | currency : 'ZAR': 'R' )  : 'N/A'  }}
+                  </div>
+
+                  <div class="note text-white">
+                    {{ convertDate(item.TimeStamp) | date:'d/M/yy': 'GMT+2': 'en-GB'}}
+                    {{ convertDate(item.TimeStamp) | date:'shortTime':'GMT+2':'en-GB' }}
+                  </div>
+                </div>
+
+              </ion-col>
+              <ion-col col-5 class="share-content" (click)="openBuyerOfferItem(idx, item.uid)">
+
+                <div class="share-item-numshares" *ngIf="item.Counter">
+                  <div class="offer-label right text-white">Your offer</div>
+                  <div class="large margin-top-5 right text-white">
+                    {{  ( getLastAskingPrice('B', item.Counter, item.Price ) | currency : 'ZAR': 'R' ) }}
+                  </div>
+
+                  <div class="offer-label margin-top-5 right text-white">Price asked</div>
+                  <div class="large margin-top-5 right text-white">
+                    {{  getLastAskingPrice('S', item.Counter, 0) != 0 ? (getLastAskingPrice('S', item.Counter, 0) | currency : 'ZAR': 'R' ) : "N/A" }}
+                  </div>
+                  <div class="note right text-white">
+                    {{ convertDate(item.ModifyDate) | date:'d/M/yy': 'GMT+2': 'en-GB'}}
+                    {{ convertDate(item.ModifyDate) | date:'shortTime':'GMT+2':'en-GB' }}</div>
+                </div>
+
+              </ion-col>
+
+              <ion-col no-padding col-1 class="share-action-btn">
+                <div class="shares-user-info">
+                  <div class="shares-user-info-item text-center ">
+                    <ion-icon class="text-white" ios="ios-more" md="md-more"
+                      (click)="showBuyOffersActionSheet(item.uid, item.userid, idx)"></ion-icon>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+        </ion-item>
+
+      </ion-list>
+
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="$event.waitFor(fetchMyOffersToPurchase())">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-slide>
+
+    <ion-slide *ngIf="numOffersReceived > 0">
+      <h4 class="text-white text-center">Offers received on my shares for sale</h4>
+      <ion-icon class="text-white float-left" name="ios-arrow-dropleft-circle-outline"></ion-icon>
+      <ion-list *ngIf="allMySellOrdersList.length > 0">
+        <ion-item class="share-list-item" *ngFor="let item of allMySellOrdersList; let idx = index;">
+
+          <ion-grid no-padding>
+            <ion-row no-padding #showSellersTrade>
+              <ion-col col-1 no-padding class="share-action-btn">
+                <div class="shares-user-info">
+                  <div class="shares-user-info-item text-center ">
+                    <ion-icon name="star"></ion-icon>
+                  </div>
+                </div>
+              </ion-col>
+              <ion-col col-5 class="share-content border-right" (click)="openSellerOfferItem(idx, item.uid)">
+
+                <div class="share-item-numshares">
+                  <div class="offer-label left text-white">Shares wanted</div>
+                  <div class="large margin-top-5 text-white">{{ item.amount | number : '1.0' }}</div>
+
+                  <div class="offer-label margin-top-5 text-white">Original price</div>
+                  <div class="large margin-top-5 text-white">
+                    {{ item.price ? ( item.price | currency : 'ZAR': 'R' )  : 'N/A'  }}
+                  </div>
+
+                  <div class="note text-white">
+                    {{ convertDate(item.TimeStamp) | date:'d/M/yy': 'GMT+2': 'en-GB'}}
+                    {{ convertDate(item.TimeStamp) | date:'shortTime':'GMT+2':'en-GB' }}
+                  </div>
+                </div>
+
+              </ion-col>
+              <ion-col col-5 class="share-content" (click)="openSellerOfferItem(idx, item.uid)">
+
+                <div class="share-item-numshares" *ngIf="item.Counter">
+                  <div class="offer-label right text-white">Your ask</div>
+                  <div class="large margin-top-5 right text-white">
+                    {{  ( getLastAskingPrice('S', item.Counter, item.Price ) | currency : 'ZAR': 'R' ) }}
+                  </div>
+
+                  <div class="offer-label margin-top-5 right text-white">Price offered</div>
+                  <div class="large margin-top-5 right text-white">
+                    {{  getLastAskingPrice('B', item.Counter, 0) != 0 ? (getLastAskingPrice('S', item.Counter, 0) | currency : 'ZAR': 'R' ) : "N/A" }}
+                  </div>
+                  <div class="note right text-white">
+                    {{ convertDate(item.ModifyDate) | date:'d/M/yy': 'GMT+2': 'en-GB'}}
+                    {{ convertDate(item.ModifyDate) | date:'shortTime':'GMT+2':'en-GB' }}</div>
+                </div>
+
+              </ion-col>
+
+              <ion-col no-padding col-1 class="share-action-btn">
+                <div class="shares-user-info">
+                  <div class="shares-user-info-item text-center ">
+                    <ion-icon class="text-white" ios="ios-more" md="md-more"
+                      (click)="showBuyOffersActionSheet(item.uid, item.userid, idx)"></ion-icon>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+        </ion-item>
+
+      </ion-list>
+
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="$event.waitFor(fetchMyOffersToPurchase())">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-fab left bottom #fab>
+    <button mini ion-fab color="light">
+      <ion-icon class="light-button-icon" name="menu"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+
+      <button mini ion-fab color="secondary" (click)="showHelp(fab)">
+        <ion-icon name="help"></ion-icon>
+        <ion-label class="popup-label"><span>Help</span></ion-label>
+      </button>
+
+      <button *ngIf="showOffersFromBuyers" mini ion-fab color="secondary" (click)="hideOfferFromBuyers(fab)">
+        <ion-icon name="undo"></ion-icon>
+        <ion-label class="popup-label"><span>Back</span></ion-label>
+      </button>
+
+      <button *ngIf="showMarketList" mini ion-fab color="secondary" (click)="hideOfferFromBuyers(fab)">
+        <ion-icon name="undo"></ion-icon>
+        <ion-label class="popup-label"><span>Back</span></ion-label>
+      </button>
+
+      <button *ngIf="!showMarketList && !showOffersFromBuyers && currentPage != 'marketlist'" mini ion-fab
+        color="secondary" (click)="openSharesList(fab)">
+        <ion-icon name="undo"></ion-icon>
+        <ion-label class="popup-label"><span>Back</span></ion-label>
+      </button>
+
+      <button mini ion-fab color="secondary" (click)="closeMarket(fab)">
+        <ion-icon name="home"></ion-icon>
+        <ion-label class="popup-label"><span>Close Market</span></ion-label>
+      </button>
+    </ion-fab-list>
+
+  </ion-fab>
+</ion-content>
+
+
+
+
+
+
+
+
+<!--
+<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+-->

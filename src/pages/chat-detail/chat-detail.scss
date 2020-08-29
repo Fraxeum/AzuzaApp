@@ -1,0 +1,150 @@
+page-chat-detail {
+
+  .line-breaker {
+    white-space: pre-line;
+	}
+
+	.txt-chat {
+		height: 55px;
+  }
+  
+  ion-footer{
+    padding: 0px;
+  }
+
+  .footer{
+    background-color: color($colors, tertiary);
+  }
+
+  ion-textarea{
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.15) !important;
+    
+  }
+
+  .item-md.item-block .item-inner{
+    padding-right: 0;
+    border-bottom: 0;
+  }
+
+  .send-button{
+    background-color: transparent;
+  }
+
+  .sendbox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .message-wrap {
+
+    .salutation{
+        margin-top: 20px;
+    }
+
+
+    .message {
+      position: relative;
+      padding: 0;
+     
+      .msg-detail {
+        width: 100%;
+        display: inline-block;
+        p {
+          margin: 0;
+        }
+        .msg-info p {
+            font-size: .8em;
+            color: #fff;
+          }
+        
+
+        .msg-content {
+          position: relative;
+          margin-top: 0px;
+          border-radius: 5px;
+          padding: 8px 12px 8px 12px;
+          
+          width: auto;
+          max-width: 95%;
+          span.triangle {
+            background-color: #fff;
+            // border-radius: 2px;
+            height: 8px;
+            width: 8px;
+            top: 12px;
+            display: block;
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+            position: absolute;
+          }
+        }
+
+      }
+    }
+
+
+
+    .message.left {
+
+      .msg-content {
+        background-color: #fff;
+    
+        float: left;
+      }
+      .msg-detail {
+        padding-left: 10px;
+      }
+      .msg-info{
+        padding-left: 15px !important;
+      }
+
+      .msg-content {
+        color: #343434;
+        span.triangle {
+          background-color: #fff;
+          border-top-width: 0;
+          border-right-width: 0;
+          left: -4px;
+        }
+      }
+
+      .message-content p span{
+          color: color($colors, dark) !important;
+      }
+
+    }
+
+    .message.right {
+      .msg-detail {
+        padding-right: 10px;
+      }
+    
+      .msg-info {
+        text-align: right;
+        padding-right: 15px !important;
+      }
+
+      ion-spinner {
+        position: absolute;
+        right: 10px;
+        top: 50px;
+      }
+      .msg-content {
+        background-color: #fff;
+        color: #343434;
+        float: right;
+        span.triangle {
+          background-color: #fff;
+          border-bottom-width: 0;
+          border-left-width: 0;
+          right: -4px;
+        }
+      }
+
+    }
+
+  }
+}

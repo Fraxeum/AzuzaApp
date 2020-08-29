@@ -1,0 +1,33 @@
+page-initial {
+
+  ion-slide{
+    margin-top: 15px;
+  }
+
+  .slide-zoom {
+    height: 95vh;
+  }
+
+  .slide-title {
+    margin-top: 0;
+    text-align: center;
+    font-style: italic;
+  }
+
+  .slide-image {
+    max-width: 128px !important;
+    margin: 0 0 18px;
+  }
+
+  .slide-image-go {
+    max-width: 250px !important;
+    margin: 0 0 18px;
+  }
+
+ button {
+   font-size: 0.7em;
+ }
+
+  
+
+}

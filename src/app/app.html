@@ -1,0 +1,92 @@
+<ion-split-pane when="lg">
+
+    <ion-menu side="left" id="main" [content]="content" class="menu-bg">
+
+        <ion-header>
+            <ion-toolbar class="user-profile">
+
+                <div class="user-profile">
+                    <ion-list no-margin>
+                        <ion-item>
+
+                            <ion-avatar item-left>
+                                <img src="assets/img/azuza_logo_w_250x47.png">
+                            </ion-avatar>
+
+                        </ion-item>
+                    </ion-list>
+
+                    <ion-grid no-padding>
+                        <ion-row class="other-data">
+                            <ion-col text-center class="column">
+                                <button ion-button icon-start small full menuClose no-margin color="dark"
+                                    (click)="openDepositPage()">
+                                    <ion-icon class="menu-icon text-white" name="arrow-dropup-circle"></ion-icon>
+                                    <span class="text-white">Deposit</span>
+                                </button>
+                            </ion-col>
+                            <ion-col text-center class="column">
+                                <button ion-button icon-start small full menuClose no-margin color="dark"
+                                    (click)="openOTCMarketPlace()">
+                                    <ion-icon class="menu-icon  text-white" name="arrow-dropright-circle"></ion-icon>
+                                    <span class="text-white">Trade</span>
+                                </button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </div>
+            </ion-toolbar>
+        </ion-header>
+
+        <ion-content class="menu">
+            <div *ngIf="name">
+                <ion-list>
+                    <ion-item nav-clear menu-close href="#" class="highlight-shadow appUserSalutation">{{ name }}
+                    </ion-item>
+                </ion-list>
+            </div>
+
+            <ion-list>
+                <button menuClose ion-item (click)="openHomePage()">
+                    <ion-icon name="home" class="menu-icon"></ion-icon>
+                    My portfolio
+                </button>
+                <button menuClose ion-item (click)="openTransactionHistory()">
+                    <ion-icon name="list" class="menu-icon"></ion-icon>
+                    My Wallet
+                </button>
+                <button menuClose ion-item (click)="openOTCMarketPlace()">
+                    <ion-icon name="pricetags" class="menu-icon"></ion-icon>
+                    Market place
+                </button>
+                <!--<button menuClose ion-item (click)="openPage(messagesItem)">
+                    <ion-icon name="cube" class="menu-icon"></ion-icon>
+                    My mining business
+                </button>-->
+            </ion-list>
+
+            <ion-footer no-shadow no-padding class="menu-footer">
+                <ion-toolbar position="bottom">
+                    <button menuClose ion-item (click)="openProfilePage()">
+                        <ion-icon name="contact" class="menu-icon"></ion-icon>
+                        Account settings
+                    </button>
+                    <button menuClose ion-item (click)="openSupportPage()">
+                        <ion-icon name="help-buoy" class="menu-icon"></ion-icon>
+                        Get support
+                    </button>
+                    <button menuClose ion-item (click)="logout()">
+                        <ion-icon name="exit" class="menu-icon"></ion-icon>
+                        Log out
+                    </button>
+                </ion-toolbar>
+
+            </ion-footer>
+
+        </ion-content>
+
+    </ion-menu>
+
+    <ion-nav [root]="rootPage" main #content swipeBackEnabled="true"></ion-nav>
+
+</ion-split-pane>

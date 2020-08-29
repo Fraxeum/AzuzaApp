@@ -1,0 +1,57 @@
+<ion-content padding class="auth-background-image">
+	<div class="auth-content">
+		<!-- Logo -->
+		<div text-center>
+			<div class="logo">
+				<img src="assets/img/azuza_logo_w_250x47.png" class="slide-image-go"
+					style="margin-top:25px; margin-left:auto; margin-right:auto" />
+			</div>
+		</div>
+		<ion-grid no-padding fixed>
+			<ion-row no-padding>
+				<ion-col>
+					<ion-slides pager="true" dir="{{dir}}">
+						<ion-slide *ngFor="let slide of slideList">
+							<h2 class="slide-title text-white" [innerHTML]="slide.title"></h2>
+							<div padding class="page-intro-init text-white">
+								<div padding [innerHTML]="slide.description" class="text-white"></div>
+							</div>
+						</ion-slide>
+					</ion-slides>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+		<!-- login button -->
+
+		<ion-fab right bottom>
+			<button *ngIf="!showLoginButton" ion-fab size="small" color="light" type="submit" (click)="onSlideNext()">
+				<ion-icon color="dark" name="arrow-dropright"></ion-icon>
+			</button>
+			<button *ngIf="showLoginButton" ion-fab size="small" color="primary" type="submit" (click)="onSlideNext()">
+				<ion-icon  name="log-in"></ion-icon>
+			</button>
+		</ion-fab>
+
+		<ion-fab left bottom #fab>
+			<button ion-fab color="dark">
+				<ion-icon name="menu"></ion-icon>
+			</button>
+			<ion-fab-list side="top">
+				<button *ngIf="!slides.isBeginning()" ion-fab color="secondary" (click)="onSlidePrev(fab)">
+					<ion-icon name="undo"></ion-icon>
+					<ion-label class="popup-label"><span>Undo</span></ion-label>
+				</button>
+
+				<button ion-fab color="secondary" (click)="openRegisterPage()">
+					<ion-icon name="person-add"></ion-icon>
+					<ion-label class="popup-label"><span>Register</span></ion-label>
+				</button>
+
+				<button ion-fab color="secondary" (click)="openAuthPage()">
+					<ion-icon name="log-in"></ion-icon>
+					<ion-label class="popup-label"><span>Log in</span></ion-label>
+				</button>
+			</ion-fab-list>
+		</ion-fab>
+	</div>
+</ion-content>

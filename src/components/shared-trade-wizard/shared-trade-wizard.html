@@ -1,0 +1,237 @@
+<!-- BUY BUTTON -->
+<div class="buyblock">
+	<form>
+		<div class="content">
+			<div *ngIf="buyStep === 1" id="buy-step-1">
+				<div scrolly="true">
+					<!-- BUY STEP 1-->
+					<h3 class="black buy-heading">{{ assetObject.Name }} shares</h3>
+					<hr />
+					<h4 *ngIf="buyStep === 1" class="small black buy-heading">Step 1 of 3: Set number of shares</h4>
+					<p class="small black shares-input">Cash balance: {{ wallet_balances.available_balance | currency:'ZAR':  'R' }}</p>
+
+					<p *ngIf="buyStep === 1" class="small black">There are {{ assetObject.left | number:0 }}
+						{{ assetObject.Name }} shares on offer at
+						{{ assetObject.price | currency:'ZAR':  wallet_balances.currency_symbol }} per share. 
+						How many of these shares would you like to buy?</p>
+
+
+					<ion-grid>
+							
+						<ion-row *ngIf="buyStep === 1" class="second-row ion-align-items-center">
+							<ion-col col-10>
+								<ion-input name="shares" id="shares" class="amount-input-field shares-input"
+									type="number" [(ngModel)]="sharesAmount" (keyup)="calcAmount()">
+								</ion-input>
+							</ion-col>
+							<ion-col col-2>
+								<p class="shares-input-label">shares</p>
+							</ion-col>
+						</ion-row>
+						
+					</ion-grid>
+				</div>
+			</div>
+
+			<!--END BUY STEP 1-->
+			<div *ngIf="buyStep === 2" id="buy-step-2">
+				<div scrolly="true">
+					<!-- BUY STEP 2 -->
+					<h3 class="black buy-heading">{{ assetObject.Name }} shares</h3>
+					<hr />
+
+					<h4 class="small black buy-heading">Step 2 of 3: Set offer price</h4>
+					<p class="small black shares-input">Cash balance: {{ wallet_balances.available_balance | currency:'ZAR':  'R' }}</p>
+
+					<p class="small black">The seller wants {{ assetObject.price | currency: 'ZAR': 'R'}} per share. <span class="small black" *ngIf="lastPrice != 'N/A'">The last successful trade on this share was {{ lastPrice | currency: 'ZAR': 'R' }} per share.</span> 
+						What price would you like to offer?</p>
+
+					
+					<ion-grid>
+						<ion-row class="second-row ion-align-items-center">
+							<ion-col col-1>
+								<p class="fiat-input-label">{{ wallet_balances.currency_symbol }}</p>
+							</ion-col>
+							<ion-col col-11>
+								<ion-input id="fiat" name="fiat" class="amount-input-field fiat-input" type="number"
+									[(ngModel)]="sharePrice">
+								</ion-input>
+							</ion-col>
+						</ion-row>
+
+						<ion-row>
+								<ion-col>
+									<button class="toggle-btn" ion-button full clear small (click)="setFiatWalletBalance()">
+										<ion-icon name="arrow-up"></ion-icon>&nbsp;&nbsp;
+										Max
+										{{ wallet_balances.currency_symbol + " " + ( wallet_balances.available_balance | number: '1.2-2' ) }}
+									</button>
+								</ion-col>
+						</ion-row>
+
+						<ion-row>
+							<ion-col padding class="center-text">
+								<p class="small black">Your are offering {{ sharePrice | currency: 'ZAR' : 'R' }} per share for {{ sharesAmount }} {{ sharesAmount > 1 ? 'shares' : 'share' }} at a total purchase price of {{ sharesAmount * sharePrice | currency:'ZAR':  'R' }}.</p>
+							</ion-col>
+						</ion-row>
+						
+
+						
+					</ion-grid>
+				</div>
+			</div>
+
+			<!--END OF BUY STEP 2-->
+
+			<div *ngIf="buyStep === 3" id="buy-step-3">
+				<!--BUY STEP 3-->
+				<div scrolly="true" class="scrollable-content">
+					<h3 class="black buy-heading">{{ assetObject.Name }} shares</h3>
+					<hr />
+
+					<h4 class="small black buy-heading">Final step: Set offer price</h4>
+
+					<p class="small black">Please confirm the details of your offer and check the trade mandate
+						boxes below. When you confirm this share purchase offer your money and the required shares
+						will move into escrow until the deal is closed.</p>
+
+					<p class="black"><b>Offer summary:</b></p>
+					<ion-grid>
+						<div class="mandate-block">
+							<ion-row no-padding>
+								<ion-col size="6">
+									<span class="black">Purchase price:</span>
+								</ion-col>
+								<ion-col size="6">
+									<span
+										class="black align-right">{{ sharesAmount * sharePrice | currency:'ZAR' : 'R' }}</span>
+								</ion-col>
+							</ion-row>
+						</div>
+						<div class="mandate-block not-first">
+							<ion-row no-padding>
+								<ion-col>
+									<span class="black">My offer price</span>
+								</ion-col>
+								<ion-col>
+									<span class="black align-right">{{ sharePrice  | currency:'ZAR' : 'R' }} per share</span>
+								</ion-col>
+							</ion-row>
+						</div>
+						<div class="mandate-block not-first">
+							<ion-row no-padding>
+								<ion-col>
+									<span class="black">Seller's suggested price:</span>
+								</ion-col>
+								<ion-col>
+									<span class="black align-right">{{ assetObject.price  | currency:'ZAR' : 'R' }} per share</span>
+								</ion-col>
+							</ion-row>
+						</div>
+						<div class="mandate-block not-first">
+								<ion-row no-padding>
+									<ion-col>
+										<span class="black">Last trade price:</span>
+									</ion-col>
+									<ion-col>
+										<span class="black align-right">{{ isNaN(lastPrice) ? lastPrice : ( lastPrice | currency:'ZAR' : 'R') }}</span>
+									</ion-col>
+								</ion-row>
+							</div>
+						<div class="mandate-block not-first">
+							<ion-row no-padding>
+								<ion-col>
+									<span class="black">Shares to buy:</span>
+								</ion-col>
+								<ion-col>
+									<span class="black align-right">{{ sharesAmount | number: 0 }}</span>
+								</ion-col>
+							</ion-row>
+						</div>
+					</ion-grid>
+
+					<div *ngIf="!allTermsChecked()">
+
+						<p class="small black">Please check each of these boxes to confirm that you understand the
+							details of this share purchase offer.</p>
+
+
+						<div class="tc-btn-div">
+							<button ion-button full end text-wrap clear (click)="acceptTerms(1)" class="tc-btn">
+								<div class="tc-button-content">I agree to the AZUZA OTC trade terms and
+									conditions.</div>
+								<ion-icon
+									[ngStyle]="termsAccepted.terms1 ? {'color': '#0C8E28' } : {'color': '#D8D8D8' } "
+									class="tc-btn-icon" name="checkmark-circle-outline"></ion-icon>
+							</button>
+						</div>
+
+						<div class="tc-btn-div">
+							<button ion-button full end text-wrap clear (click)="acceptTerms(2)" class="tc-btn">
+								<div class="tc-button-content">My money will remain in escrow until this deal is done or cancelled.</div>
+								<ion-icon
+									[ngStyle]="termsAccepted.terms2 ? {'color': '#0C8E28' } : {'color': '#D8D8D8' } "
+									class="tc-btn-icon" name="checkmark-circle-outline"></ion-icon>
+							</button>
+						</div>
+
+						<div class="tc-btn-div">
+							<button ion-button full end text-wrap clear (click)="acceptTerms(3)" class="tc-btn">
+								<div class="tc-button-content">I understand that this offer is irreversible once it's been accepted.  </div>
+								<ion-icon
+									[ngStyle]="termsAccepted.terms3 ? {'color': '#0C8E28' } : {'color': '#D8D8D8' } "
+									class="tc-btn-icon" name="checkmark-circle-outline"></ion-icon>
+							</button>
+						</div>
+					</div>
+
+					<div *ngIf="allTermsChecked()" class="">
+						<p class="small black center-text">We're good to go! Tap the green button to send your offer to purchase.</p>
+					</div>
+
+
+				</div>
+			</div>
+			<!--END BUY STEP 4-->
+		</div>
+	</form>
+
+	<!-- buy popup navigation -->
+	<ion-fab right bottom fixed #fab>
+		<button *ngIf="buyStep === 1" ion-fab mini color="secondary" (click)="nextStep(fab, 1)">
+			<ion-icon class="light-button-icon" name="arrow-round-forward"></ion-icon>
+		</button>
+
+		<button *ngIf="buyStep === 2" [disabled]="((fiatAmount > wallet_balances.available_balance) || fiatAmount <= 0)"
+			ion-fab mini color="secondary" (click)="nextStep(fab, 1)">
+			<ion-icon class="light-button-icon" name="arrow-round-forward"></ion-icon>
+		</button>
+
+		<button *ngIf="buyStep === 3 && allTermsChecked() && transactionObj.totalShares > 0" ion-fab mini
+			color="success" (click)="nextStep(fab, 1)" type="submit">
+			<ion-icon class="dark-button-icon" name="flag"></ion-icon>
+		</button>
+	</ion-fab>
+
+	<ion-fab *ngIf="buyStep === 1" left bottom fixed #fab>
+		<button ion-fab mini color="dark" (click)="toggleShow()">
+			<ion-icon class="dark-button-icon" name="close"></ion-icon>
+		</button>
+	</ion-fab>
+
+	<ion-fab *ngIf="buyStep > 1" left bottom #fab>
+		<button ion-fab mini color="dark">
+			<ion-icon class="dark-button-icon" name="menu"></ion-icon>
+		</button>
+		<ion-fab-list side="top">
+			<button ion-fab mini color="light" (click)="toggleShow()">
+				<ion-icon class="light-button-icon" name="md-close-circle"></ion-icon>
+				<ion-label class="black popup-label buy-block-menu-popup">Close</ion-label>
+			</button>
+			<button ion-fab mini color="light" (click)="nextStep(fab, 0)">
+				<ion-icon class="light-button-icon" name="undo"></ion-icon>
+				<ion-label class="black popup-label buy-block-menu-popup">Back</ion-label>
+			</button>
+		</ion-fab-list>
+	</ion-fab>
+</div>

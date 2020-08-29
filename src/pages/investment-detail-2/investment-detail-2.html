@@ -1,0 +1,530 @@
+<ion-content full-screen="true">
+	<div [ngClass]="showBuyPopup ? 'overlay':''">
+		<ion-refresher (ionRefresh)="doRefresh($event)">
+			<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Refresh" refreshingSpinner="bubbles"
+				refreshingText="Refreshing...">
+			</ion-refresher-content>
+		</ion-refresher>
+
+		<div class="content-framework">
+			<div class="header-box">
+				<img src="assets/img/client-2/header-logo.png" class="header-image" />
+
+
+				<ion-slides class="to-top" pager>
+					<ion-slide>
+						<ion-card class="swipecard fill-blue" mode="ios">
+							<ion-card-content>
+								<img src="assets/img/client-1/video-splash/infinite-2.png" (click)="playVideo(2)" />
+							</ion-card-content>
+						</ion-card>
+					</ion-slide>
+					<ion-slide>
+						<ion-card class="swipecard fill-blue" mode="ios">
+							<ion-card-content>
+								<img src="assets/img/client-1/video-splash/infinite-3.png" (click)="playVideo(3)" />
+							</ion-card-content>
+						</ion-card>
+					</ion-slide>
+					<ion-slide>
+						<ion-card class="swipecard fill-blue" mode="ios">
+							<ion-card-content>
+								<img src="assets/img/client-1/video-splash/infinite-4.png" (click)="playVideo(4)" />
+							</ion-card-content>
+						</ion-card>
+					</ion-slide>
+					<ion-slide>
+						<ion-card class="swipecard fill-green" mode="ios">
+							<ion-card-content>
+								<img src="assets/img/client-1/video-splash/infinite-5.png" (click)="playVideo(5)" />
+							</ion-card-content>
+						</ion-card>
+					</ion-slide>
+				</ion-slides>
+
+			</div>
+
+
+			<h3 class="section-heading exo2">Investment overview</h3>
+
+			<h3 class="content-heading">The offer</h3>
+			<div class="infoblock">
+				<ion-grid no-padding>
+					<ion-row>
+						<ion-col size="6">
+							<p class="stats"><span
+									class="item-title emphasis">{{ (vitals.TokenSalesPrice ? "R "+(vitals.TokenSalesPrice | number: '2.0' ) : "--")  }}</span><br />
+								<span class="item-subtitle">{{ (vitals.TokenSalesPrice ? "Per share" : "")  }}</span>
+								<br>
+								<span
+									class="small">{{ ((vitals.TokensAvailable ? (vitals.TokensAvailable | number: '1.2-2')  :  "")) + (vitals.TokensAvailable ? "&nbsp;left" : "") }}
+								</span></p>
+						</ion-col>
+						<ion-col size="6">
+							<p class="stats"><span
+									class="item-title emphasis">{{ (vitals.TokenSalesPrice ? "26%" : "--")  }}</span>
+								<br>
+								<span class="item-subtitle">{{ (vitals.TokenSalesPrice ? "Returns" : "")  }}</span>
+								<br>
+								<span class="small">{{ (vitals.TokenSalesPrice ? "3 Years Compounded" : "")  }}</span>
+							</p>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</div>
+
+			<h3 class="content-heading">Funding meter</h3>
+			<div class="infoblock">
+				<ion-grid padding>
+					<ion-row>
+						<ion-col size="6" text-center>
+							<circle-progress
+								[percent]="(vitals.TokensSold && vitals.TokensAvailable ? (vitals.TokensSold / vitals.TokensAvailable )*100 : 0)"
+								[subtitle]="'funded'"></circle-progress>
+
+						</ion-col>
+
+						<ion-col size="6" text-center>
+							<circle-progress [outerStrokeColor]="strokeColour" [showUnits]="false"
+								[title]="vitals.DaysLeft" [percent]="percentComplete"
+								[subtitle]="(vitals.DaysLeft > 1) ? 'days to go' : (vitals.DaysLeft === 1) ? 'day to go' : 'Offer closed'">
+							</circle-progress>
+						</ion-col>
+
+					</ion-row>
+				</ion-grid>
+			</div>
+
+			<h3 class="content-heading">Our story</h3>
+			<div class="infoblock">
+				<p>The global population is rapidly expanding and the demand for clean, organic food is at an all time
+					high.</p>
+				<p>The Puregrow company was founded form a passion for sustainable farming by two entrepreneurs Niekie
+					van der Walt and Phil van den Heever. Over the past six years they
+					have designed, developed and market tested a scalable aquaponics farming system that yields 100%
+					organic, export quality produce.
+				</p>
+				<p>This is your opportunity to own shares in a sustainable food farm <i>including a share in the farm
+						land</i>.</p>
+
+				<ion-slides class="product-slider" loop="true" slidesPerView="2">
+					<ion-slide *ngFor="let item of product_images" imageViewer>
+						<img [src]="item.src" [alt]="item.name" class="thumb-img" />
+						<ion-label class="product-label">{{item.description}}</ion-label>
+					</ion-slide>
+				</ion-slides>
+			</div>
+
+			<h3 class="content-heading">Fund raising goal</h3>
+			<div class="infoblock">
+				<p>The startup aims to raise R65m to setup infrastructure to start large scale commercial farming on ten
+					farms.</p>
+			</div>
+
+			<h3 class="content-heading">Milestones</h3>
+			<div class="infoblock">
+				<ion-slides class="product-slider" loop="true" slidesPerView="2">
+					<ion-slide *ngFor="let item of product_images" imageViewer>
+						<img [src]="item.src" [alt]="item.name" class="thumb-img" />
+						<ion-label class="product-label">{{item.description}}</ion-label>
+					</ion-slide>
+				</ion-slides>
+			</div>
+
+
+
+
+			<h3 class="content-heading">The numbers</h3>
+			<div class="infoblock">
+				<ion-grid no-padding>
+					<ion-row>
+						<ion-col size="6">
+							<p class="stats"><span class="item-title emphasis">R3m</span><br />
+								<span class="item-subtitle">Owners Investment</span></p>
+						</ion-col>
+
+						<ion-col size="6">
+							<p class="stats"><span class="item-title emphasis">4</span><br />
+								<span class="item-subtitle">Years in business</span></p>
+						</ion-col>
+
+					</ion-row>
+
+					<ion-row class="second-row">
+						<ion-col size="6">
+							<p class="stats"><span class="item-title emphasis">R120m</span><br />
+								<span class="item-subtitle">Valuation</span></p>
+						</ion-col>
+						<ion-col size="6">
+							<p class="stats"><span class="item-title emphasis">20%</span><br />
+								<span class="item-subtitle">Shares on offer</span></p>
+						</ion-col>
+					</ion-row>
+
+				</ion-grid>
+			</div>
+
+			<h3 class="content-heading">Orderbook summary</h3>
+			<div class="infoblock">
+				<p>The company has an orderbook of more than R100 million for products like:</p>
+				<ul>
+					<li class="text-white">Trench tiles & manhole covers</li>
+					<li class="text-white">Guard houses</li>
+					<li class="text-white">Complete low cost houses</li>
+				</ul>
+			</div>
+
+
+
+
+			<h3 class="section-heading">Supporting docs</h3>
+			<div class="docs-section">
+				<button class="docs-button" href="https://www.google.com" target="_blank" ion-button expand="full"
+					fill="outline" size="small" download>Prospectus</button>
+				<button class="docs-button" href="https://www.google.com" target="_parent" ion-button expand="full"
+					fill="outline" size="small" download>Financial
+					model</button>
+				<button class="docs-button" href="https://www.google.com" target="_self" ion-button expand="full"
+					fill="outline" size="small" download>Company
+					website</button>
+				<button class="docs-button" href="https://www.google.com" target="_top" ion-button expand="full"
+					fill="outline" size="small" download>CIPC docs</button>
+			</div>
+
+
+			<h3 class="section-heading">Frequest questions</h3>
+			<accordion class="first-item" title="Can I access to my capital?">Individual shareholders can offer their
+				shares
+				for sale to other shareholders on the AZUZA traders market. In the app tap on "Menu" then "Traders
+				market".
+			</accordion>
+			<accordion title="Are there tax benefits?">Yes, South Africans who choose to invest in this company via our
+				Section 12J partner may be able to deduct up to 100% of your investment from your income tax (SARS
+				limits
+				apply). <br />Note: This option is a five year fixed 5 investment and you cannot trade your shares on
+				the
+				AZUZA market. </accordion>
+			<accordion title="Do I have voting rights?">Your shares are managed by AZUZA Wealth and a team of highly
+				qualified individuals. From time to time you will be given the opportunity to vote on business aspects.
+				Voting is super easy and is done right here on the app.</accordion>
+			<accordion title="Is there a financial risk?">Early stage investing is always risky. It is possible that you
+				can
+				lose your entire investment. The AZUZA team will do everything in our power to ensure that your
+				investment
+				is successful, but you are ultimately responsible for the risk.</accordion>
+			<accordion title="Can I be held liable for debt?">No. Your financial risk ends with the amount that you
+				invest.
+				Shareholders cannot be held liable for any debt or losses that the startup may incur.</accordion>
+			<accordion title="When do I get paid?">You are paid within two weeks of dividends having been declared and
+				within 48-hours of the company depositing the dividend payment amount to AZUZA.</accordion>
+			<accordion title="How do I know that this company is legit?">To crowdsource investment on AZUZA a company is
+				subject to a rigorous due dilligence performed by AZUZA Wealth's team of chartered accountants. We have
+				checked and approved everything from company registration to tax clearance, directors fitness to serve
+				to
+				business model feasibility and everything in between. </accordion>
+		</div>
+	</div> <!-- overlay-->
+</ion-content>
+
+
+
+<div *ngIf="!showBuyPopup">
+	<div *ngIf="percentComplete">
+		<ion-fab right bottom fixed #fab>
+			<button ion-fab mini color="light" (click)="toggleBuyPopupVisibility()">
+				<ion-icon class="light-button-icon" name="cart"></ion-icon>
+			</button>
+		</ion-fab>
+	</div>
+
+	<ion-fab left bottom fixed #fab>
+		<button ion-fab mini color="light" (click)="prevStep()">
+			<ion-icon class="light-button-icon" name="undo"></ion-icon>
+		</button>
+	</ion-fab>
+</div>
+
+<div *ngIf="showBuyPopup">
+	<ion-fab right bottom fixed #fab>
+		<button *ngIf="buyStep != 3"
+			[disabled]="buyStep === 1 && ((fiatAmount > +fiatObjects[0].Available) || fiatAmount <= 0)" ion-fab mini
+			color="secondary" (click)="nextStep(fab, 1)">
+			<ion-icon class="light-button-icon" name="arrow-round-forward"></ion-icon>
+		</button>
+
+		<button *ngIf="buyStep === 3 && allTermsChecked() && transactionObj.totalShares > 0" ion-fab mini
+			color="success" (click)="nextStep(fab, 1)" type="submit">
+			<ion-icon class="dark-button-icon" name="flag"></ion-icon>
+		</button>
+	</ion-fab>
+
+	<ion-fab *ngIf="buyStep === 1" left bottom fixed #fab>
+		<button ion-fab mini color="dark" (click)="toggleBuyPopupVisibility()">
+			<ion-icon class="dark-button-icon" name="close"></ion-icon>
+		</button>
+	</ion-fab>
+
+	<ion-fab *ngIf="buyStep > 1" left bottom #fab>
+		<button ion-fab mini color="dark">
+			<ion-icon class="dark-button-icon" name="menu"></ion-icon>
+		</button>
+		<ion-fab-list side="top">
+			<button ion-fab mini color="light" (click)="toggleBuyPopupVisibility()">
+				<ion-icon class="light-button-icon" name="md-close-circle"></ion-icon>
+				<ion-label class="popup-label buy-block-menu-popup">Close</ion-label>
+			</button>
+			<button ion-fab mini color="light" (click)="nextStep(fab, 0)">
+				<ion-icon class="light-button-icon" name="undo"></ion-icon>
+				<ion-label class="popup-label buy-block-menu-popup">Back</ion-label>
+			</button>
+		</ion-fab-list>
+	</ion-fab>
+</div>
+
+
+
+<!-- BUY BUTTON -->
+<div *ngIf="showBuyPopup" class="buyblock">
+	<form>
+		<div class="content">
+			<div *ngIf="buyStep === 1" id="buy-step-1">
+				<div scrolly="true">
+					<!--BUY STEP 1-->
+					<h3 class="text-white buy-heading">Invest Wizard</h3>
+					<hr />
+					<ion-grid>
+						<ion-row no-padding>
+							<ion-col size="12" no-padding>
+								<div *ngIf="sharesToggle">
+									<p class="text-white">How many shares would you like to buy?
+									</p>
+								</div>
+								<div *ngIf="!sharesToggle">
+									<p class="text-white">How much money would you like to invest?
+									</p>
+								</div>
+							</ion-col>
+						</ion-row>
+
+						<ion-row *ngIf="sharesToggle" class="second-row ion-align-items-center">
+							<ion-col col-10>
+								<ion-input #shares name="shares" id="shares" class="amount-input-field shares-input"
+									type="number" [(ngModel)]="sharesAmount" (keyup)="calcAmount()">
+								</ion-input>
+							</ion-col>
+							<ion-col col-2 class="shares-input-label">
+								<span class="text-white">shares</span>
+							</ion-col>
+						</ion-row>
+						<ion-row no-padding *ngIf="sharesToggle" class="second-row ion-align-items-center">
+							<ion-col col-6 no-padding>
+								<div class="small text-white left">Rand value: {{ fiatAmount | currency:'ZAR':  'R' }}
+								</div>
+							</ion-col>
+							<ion-col col-6 no-padding>
+								<div class="small text-white right">Available:
+									{{ +fiatObjects[0].Available | currency:'ZAR':  'R' }}</div>
+							</ion-col>
+						</ion-row>
+
+						<ion-row *ngIf="!sharesToggle" class="second-row ion-align-items-center">
+							<ion-col col-1 class="fiat-input-label">
+								<span class="text-white">{{ fiatObjects[0].LocalCurrencySymbol }}</span>
+							</ion-col>
+							<ion-col col-11>
+								<ion-input #fiat id="fiat" name="fiat" class="amount-input-field fiat-input"
+									type="number" [(ngModel)]="fiatAmount" (keyup)="calcAmount()">
+								</ion-input>
+							</ion-col>
+						</ion-row>
+						<ion-row no-padding *ngIf="!sharesToggle" class="second-row ion-align-items-center">
+							<ion-col col-12 no-padding>
+								<div class="small darkblue left" *ngIf="sharesAmount > 0">Number of shares:
+									{{ sharesAmount }}</div>
+								<div class="small darkblue right">Available:
+									{{ +fiatObjects[0].Available | currency:'ZAR':  'R' }}</div>
+							</ion-col>
+						</ion-row>
+
+						<ion-row>
+							<ion-col>
+								<button class="toggle-btn" ion-button full clear small *ngIf="!sharesToggle"
+									(click)="toggleShareToggle()">
+									<ion-icon name="shuffle"></ion-icon>&nbsp;&nbsp;Specify number of shares
+								</button>
+								<button class="toggle-btn" ion-button full clear small *ngIf="sharesToggle"
+									(click)="toggleShareToggle()">
+									<ion-icon name="shuffle"></ion-icon>&nbsp;&nbsp;Specify Rand Amount
+								</button>
+
+								<button class="toggle-btn" ion-button full clear small (click)="setFiatWalletBalance()">
+									<ion-icon name="arrow-up"></ion-icon>&nbsp;&nbsp;
+									Max
+									{{ fiatObjects[0].LocalCurrencySymbol + " " + ( +fiatObjects[0].Available | number: '1.2-2' ) }}
+								</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</div>
+			</div>
+			<!--END BUY STEP 1-->
+			<div *ngIf="buyStep === 2" id="buy-step-2">
+				<!--BUY STEP 2-->
+				<div scrolly="true" class="scrollable-content">
+					<h3 class="text-white buy-heading">Invest Wizard<span class="buy-heading-step-count small">Step 2 of
+							3</span></h3>
+					<hr />
+					<ion-grid>
+						<ion-row no-padding>
+							<ion-col size="12" no-padding>
+								<p class="text-white"><b>Do you want to invest and get a tax benefit or would you rather
+										have
+										access to your capital?</b></p>
+								<p class="text-white"><b>Tax benefit shares:</b> Your investment is fixed for a period
+									of 5
+									years - you cannot trade your shares.<br />
+									<b>Access to capital shares:</b> There is no tax benefit but you can access your
+									capital by offering the shares for sale to others.
+								</p>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+
+					<div class="tc-btn-div">
+						<button ion-button full end text-wrap clear (click)="acceptTerms(4)" class="tc-btn">
+							<div class="tc-button-content one-line text-white">Tax benefit shares</div>
+							<ion-icon
+								[ngStyle]="transactionObj.vehicle === 's12j' ? {'color': '#0C8E28' } : {'color': '#D8D8D8' } "
+								class="tc-btn-icon" name="checkmark-circle-outline"></ion-icon>
+						</button>
+					</div>
+
+					<div class="tc-btn-div">
+						<button ion-button full end text-wrap clear (click)="acceptTerms(5)" class="tc-btn">
+							<div class="tc-button-content one-line text-white">Access to capital shares</div>
+							<ion-icon
+								[ngStyle]="transactionObj.vehicle != 's12j' ? {'color': '#0C8E28' } : {'color': '#D8D8D8' } "
+								class="tc-btn-icon" name="checkmark-circle-outline"></ion-icon>
+						</button>
+					</div>
+
+				</div>
+			</div>
+			<!--END BUY STEP 2-->
+
+			<div *ngIf="buyStep === 3" id="buy-step-3">
+				<!--BUY STEP 3-->
+				<div scrolly="true" class="scrollable-content">
+					<h3 class="text-white buy-heading">Invest Wizard<span class="buy-heading-step-count small">Final
+							step</span></h3>
+					<hr />
+					<p class="text-white">Please confirm the details of the transaction and check the investment mandate
+						boxes below.</p>
+					<p class="text-white"><b>Mandate summary:</b></p>
+					<ion-grid>
+						<div class="mandate-block">
+							<ion-row no-padding>
+								<ion-col size="6">
+									<span class="text-white">Capital amount:</span>
+								</ion-col>
+								<ion-col size="6">
+									<span class="text-white align-right">{{ fiatAmount | currency:'ZAR':  'R' }}</span>
+								</ion-col>
+							</ion-row>
+						</div>
+						<div class="mandate-block not-first">
+							<ion-row no-padding>
+								<ion-col>
+									<span class="text-white">Total shares:</span>
+								</ion-col>
+								<ion-col>
+									<span class="text-white align-right">{{sharesAmount}}</span>
+								</ion-col>
+							</ion-row>
+						</div>
+						<div class="mandate-block not-first">
+							<ion-row no-padding>
+								<ion-col>
+									<span class="text-white">Holding company</span>
+								</ion-col>
+								<ion-col>
+									<span
+										class="text-white align-right">{{ transactionObj.vehicle === "s12j" ? "S12J (Pty) Ltd" : "SPV (Pty) Ltd" }}</span>
+								</ion-col>
+							</ion-row>
+						</div>
+						<div class="mandate-block not-first">
+							<ion-row no-padding>
+								<ion-col>
+									<span class="text-white">Fees (Included)</span>
+								</ion-col>
+								<ion-col>
+									<span class="text-white align-right">{{ vitals.SalesCommission }}
+									</span>
+								</ion-col>
+							</ion-row>
+						</div>
+					</ion-grid>
+
+					<div *ngIf="!allTermsChecked()">
+
+						<p class="text-white">Please check each of these boxes to confirm that you understand the
+							details of your shares purchase.</p>
+
+
+						<div class="tc-btn-div">
+							<button ion-button full end text-wrap clear (click)="acceptTerms(1)" class="tc-btn">
+								<div class="tc-button-content text-white">I have read and understood the AZUZA terms and
+									conditions.</div>
+								<ion-icon
+									[ngStyle]="termsAccepted.terms1 ? {'color': '#0C8E28' } : {'color': '#D8D8D8' } "
+									class="tc-btn-icon" name="checkmark-circle-outline"></ion-icon>
+							</button>
+						</div>
+
+						<div class="tc-btn-div">
+							<button ion-button full end text-wrap clear (click)="acceptTerms(2)" class="tc-btn">
+								<div class="tc-button-content text-white">I'm investing in a startup and my money
+									is at risk.</div>
+								<ion-icon
+									[ngStyle]="termsAccepted.terms2 ? {'color': '#0C8E28' } : {'color': '#D8D8D8' } "
+									class="tc-btn-icon" name="checkmark-circle-outline"></ion-icon>
+							</button>
+						</div>
+
+						<div class="tc-btn-div">
+							<button ion-button full end text-wrap clear (click)="acceptTerms(3)" class="tc-btn">
+								<div class="tc-button-content text-white">
+									Once money has been placed it can only be paid back when the share offer is
+									cancelled.
+								</div>
+								<ion-icon
+									[ngStyle]="termsAccepted.terms3 ? {'color': '#0C8E28' } : {'color': '#D8D8D8' } "
+									class="tc-btn-icon" name="checkmark-circle-outline"></ion-icon>
+							</button>
+						</div>
+
+						<div class="tc-btn-div">
+							<button ion-button full end text-wrap clear (click)="acceptTerms(6)" class="tc-btn">
+								<div class="tc-button-content text-white">I declare that I am over the age of 18 and I
+									hereby bind
+									myself to this agreement.</div>
+								<ion-icon
+									[ngStyle]="termsAccepted.terms4 ? {'color': '#0C8E28' } : {'color': '#D8D8D8' } "
+									class="tc-btn-icon" name="checkmark-circle-outline"></ion-icon>
+							</button>
+						</div>
+					</div>
+
+					<div *ngIf="allTermsChecked()" class="">
+						<p class="tc-btn center-text text-white">We're good to go! Tap the green button to complete your
+							share purchase.</p>
+					</div>
+
+
+				</div>
+			</div>
+			<!--END BUY STEP 3-->
+		</div>
+	</form>
+</div>

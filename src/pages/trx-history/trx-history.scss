@@ -1,0 +1,263 @@
+page-trx-history {
+
+    h3.slides-heading{
+        margin:10px 0;
+    }
+
+    .scroll-content{
+        padding: 10px 0px !important;
+        
+    }
+    
+
+.item-icon{
+    font-size: large;
+    display: flex;
+        flex-direction: column;
+        justify-content: center;
+}
+
+.item-md{
+    padding-left: 0;
+}
+
+    .border-right{
+        border-right: 1px solid rgba(255,255,255,0.5);
+    }
+
+    :host{
+        padding: 5px !important;
+        --super-tab-width: 25% !important;
+        --super-tab-height: 60px !important;
+
+    }
+
+    .fab-close-icon{
+        color: white;
+        background-color: color($colors, secondary);
+        border-radius: 50%;
+    }
+
+
+    ion-label.share-name, ion-label.share-ask-price{
+        color: color($colors, dark);
+        font-size: medium;
+        font-weight: bold;
+    }
+
+    .share-ask-price{
+        color: color($colors, dark);
+        float: right;
+        font-size: medium;
+    }
+
+    .data-grid{
+        margin-top: 10px;
+    }
+
+    .data-list-item{
+        max-width: 90%;
+        border-radius: 5px;
+        padding: 10px 0px;
+        margin: 5px auto 5px auto;
+        
+        background-color: rgba(255,255,255,1) !important;
+    }
+
+    .offer-label{
+        font-size: x-small !important;
+    }
+
+    .text-black{
+        color: black !important; 
+    }
+
+    .text-grey{
+        color: #D3D3D3 !important;
+    }
+
+    .text-secondary{
+        color: color($colors, secondary) !important;
+    }
+
+    .note{
+        font-size: xx-small !important;
+        color: rgba(0,0,0,0.75);
+    }
+
+    .large{
+        font-size: large;
+    }
+
+    .bubble{
+        padding: 10px !important;
+        background-color: rgba(color($colors, secondary),0.35);
+        margin-left: 4px;
+        margin-right: 4px;
+        border-radius: 5px;
+    }
+
+    .share-content{
+        padding: 10px 15px !important;
+        text-align: left;
+
+    }
+
+    .list-md .item-block .item-inner{
+        border-bottom: 0px;
+        padding-left: 8px;
+    }
+
+    .item-block{
+        min-height: 2rem;
+    }
+
+    .hide-item{
+         display: none !important;
+    }
+  
+
+    .docs-button{
+      padding: 20px 15px;
+      background-color: #519DBE;
+      color: #2D3951;
+      border-radius: 10px;
+    }
+
+    .market-list-item-button{
+        border-top: 0.05rem  solid #eaeaea !important;
+        border-bottom: 0.05rem  solid #eaeaea !important;
+        background-color: white;
+        color: #000000;
+    }
+
+    .market-list-item-button ion-badge{
+        border: none;
+        background-color: color($colors, secondary);
+        color: black;
+    }
+
+    .item-count-badge{
+        border: none;
+        background-color: #fff;
+        color: black !important;
+    }
+
+    .share-list-item{
+        border-top: 0 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .share-title{
+        font-weight: normal;
+        color: #fff;
+        margin-left: 7px;
+    }
+
+    .share-action-btn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .list-item-share-action-btn{
+        padding: 10px;
+        justify-content: left !important;
+        color: white;
+    }
+
+    .btn-danger{
+        background-color: rgba(color($colors, danger), 0.45);
+    }
+
+    .btn-secondary{
+        background-color: rgba(color($colors, secondary), 0.7);
+    }
+
+    .btn-tertiary{
+        background-color: rgba(color($colors, tertiary), 0.65);
+        color: white;
+    }
+
+    .shares-user-info{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .shares-user-info-item{
+        flex: 1;
+    }
+
+    ion-item .label-md{
+        margin: 0px !important;
+        padding: 0px 5px;
+    }
+
+    .share-date{
+        display: block;
+        width: 100%;
+        font-size: xx-small;
+        color: rgba(0,0,0,0.65);
+        clear: both;
+        float: left;
+
+    }
+
+    .share-item-numshares{
+        text-align: left;
+        display: block;
+        width: 100%;
+        color: #000 !important;
+        
+    }
+
+    .share-item-price{
+        text-align: center;
+        clear:both;
+    }
+
+    .list-md .item-block .item-inner{
+        padding: 0px !important;
+    }
+
+    ion-label{
+        padding: 0px;
+    }
+
+
+    ion-icon .pads{
+        margin: 5px !important;
+    }
+
+    .legend-line{
+        margin-bottom: 25px !important;
+        padding: 0px 5px;
+        color: white;
+    }
+
+    .grey{
+        color: rgba(0,0,0,0.2) !important;
+    }
+
+    .align-icons-top{
+       padding-bottom: 80%;
+    }
+
+    .danger{
+        color: color($colors, danger);
+    }
+
+    .success{
+        color: color($colors, success);
+    }
+
+    .yellow{
+        color: yellowgreen;
+    }
+
+    .margin-top-Neg3{
+        margin-top: -3px;
+    }
+
+}

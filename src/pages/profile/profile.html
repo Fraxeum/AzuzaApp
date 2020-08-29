@@ -1,0 +1,231 @@
+<!--
+  Generated template for the OtcMarketMainPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu" color="light"></ion-icon>
+    </button>
+    <ion-title>Account Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (pan)="handleSwipe($event)">
+
+
+  <div class="user-profile">
+    <ion-grid no-padding>
+      <ion-row class="other-data">
+        <ion-col col-4 text-center class="column border-right" [ngClass]="currentPage === 'personal' ? 'activeTab' : 'inactiveTab'">
+          <button ion-button icon-start small full menuClose no-margin color="dark" (click)="showPage(0)"
+            [ngClass]="currentPage === 'personal' ? 'activeTab' : 'inactiveTab'">
+            <span class="text-white">Personal</span>
+          </button>
+        </ion-col>
+        <ion-col col-4 text-center class="column border-right" [ngClass]="currentPage === 'docs' ? 'activeTab' : 'inactiveTab'">
+          <button ion-button icon-start small full menuClose no-margin color="dark" (click)="showPage(1)">
+            <span class="text-white">Docs</span>
+          </button>
+        </ion-col>
+        <ion-col col-4 text-center class="column border-right" [ngClass]="currentPage === 'banking' ? 'activeTab' : 'inactiveTab'">
+          <button ion-button icon-start small full menuClose no-margin color="dark" (click)="showPage(2)">
+            <span class="text-white">Banking</span>
+            <ion-badge color="tertiary">2</ion-badge>
+          </button>
+        </ion-col>
+        <!--<ion-col col-4 text-center class="column border-right" [ngClass]="currentPage === 'security' ? 'activeTab' : 'inactiveTab'">
+            <button ion-button icon-start small full menuClose no-margin color="dark" (click)="showPage(2)">
+              <span class="text-white">Banking</span>
+              <ion-badge color="tertiary">2</ion-badge>
+            </button>
+          </ion-col>-->
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div *ngIf="currentPage==='personal'">
+
+    <div class="infoblock">
+      <p class="text-white">
+        Your personal information is only used when we need to verify your identity.
+      </p>
+    </div>
+
+    <h3 class="exo2 section-heading">Personal information</h3>
+    <ion-list>
+      <ion-item class="share-list-item accountItems">
+        <ion-label stacked class="text-white">Email address</ion-label>
+        <ion-input inputmode="text" class="input-item" [type]="fieldType" value="{{user.Email}}" clearOnEdit="false"
+          [(ngModel)]="user.Email">
+        </ion-input>
+      </ion-item>
+      <ion-item class="share-list-item accountItems">
+        <ion-label stacked class="text-white">Login username</ion-label>
+        <ion-input class="text-white" inputmode="text" class="input-item" [type]="fieldType"
+          value="{{ user.UserName != '' ? user.UserName : user.Email }}" clearOnEdit="false" [(ngModel)]="user.UserName"
+          (change)="saveChanges('general', 'Username')">
+        </ion-input>
+      </ion-item>
+      <ion-item class="share-list-item accountItems">
+        <ion-label stacked class="text-white">First name</ion-label>
+        <ion-input inputmode="text" class="input-item" [type]="fieldType" value="{{user.FirstName}}" clearOnEdit="false"
+          [(ngModel)]="user.FirstName" (change)="saveChanges('general', 'First name')">
+        </ion-input>
+      </ion-item>
+      <ion-item class="share-list-item accountItems">
+        <ion-label stacked class="text-white">Surname</ion-label>
+        <ion-input class="text-white" inputmode="text" class="input-item" [type]="fieldType" value="{{user.LastName}}"
+          clearOnEdit="false" [(ngModel)]="user.LastName" (change)="saveChanges('general', 'Last name')">
+        </ion-input>
+      </ion-item>
+      <ion-item class="share-list-item accountItems">
+        <ion-label stacked class="text-white">Citizenship</ion-label>
+        <ion-select style="width: auto;" (ionChange)="saveChanges('general', 'Citizenship')"
+          [(ngModel)]="user.CountryId">
+          <ion-option class="input-item" *ngFor="let country of countries" [value]="country.id"
+            [selected]="country.selected">
+            {{ country.name }}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="currentPage==='banking'">
+    <div class="infoblock">
+      <p class="text-white" *ngIf="banking.BankName">
+        Your verified account details appear below. If you need to change your bank account details it must be
+        verified again - The support team is happy to help you do that.
+      </p>
+      <p class="text-white" *ngIf="!banking.BankName">
+        You can withdraw cash from your AZUZA wallet into a verified bank account. To verify your bank account, please
+        provide your bank name, bank account number, as well as a bank account confirmation letter from your bank.
+      </p>
+    </div>
+    <h3 class="exo2 section-heading">Bank details</h3>
+    <ion-list>
+      <ion-item class="share-list-item accountItems">
+        <ion-label stacked class="text-white">Bank</ion-label>
+        <ion-select style="width: auto;" (ionChange)="setNewBank()" [(ngModel)]="banking.BankName"
+          [disabled]="banking.BankName == 'test'">
+          <ion-option class="input-item" *ngFor="let bank of bankList" [value]="bank.brandname"
+            [selected]="bank.selected">
+            {{ bank.brandname }}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="share-list-item accountItems">
+        <ion-label stacked class="text-white">Account number</ion-label>
+        <ion-input [disabled]="banking.AccountNumber == 'test' " class="text-white" inputmode="text" class="input-item"
+          [type]="fieldType" value="{{ banking.AccountNumber }}" clearOnEdit="false" [(ngModel)]="banking.AccountNumber"
+          (change)="saveChanges('bank', 'Account number')">
+        </ion-input>
+      </ion-item>
+
+
+    </ion-list>
+  </div>
+
+  <div *ngIf="currentPage==='docs'">
+    <div class="infoblock">
+      <p class="text-white">
+        To activate your account for deposits, investment and trading we need you to provide us with a clear photo of
+        the following documents.
+        For guidance press the info button below.
+      </p>
+    </div>
+    <div *ngIf="hideDocsList; then showDocsList else hideDocsList"></div>
+    <ng-template #hideDocsList>
+      <div class="share-list-item" class="share-list-item accountItems" *ngIf="!item.uploaded">
+        <ion-label class="text-white">Loading...</ion-label>
+      </div>
+    </ng-template>
+    <ng-template #showDocsList>
+      <h3 class="exo2 section-heading" *ngIf="showDocsRequiredHeading">Documents required</h3>
+      <form #docsForm>
+        <div *ngFor="let item of sectorList, let i = index">
+          <div class="share-list-item" class="share-list-item accountItems" *ngIf="!item.uploaded">
+            <ion-label class="text-white">{{ item.Name }}
+              <span class="text-white smaller left-20" *ngIf="item.Name === 'Copy ID' ">(ID Book or ID Card)</span>
+              <span class="text-white smaller left-20" *ngIf="item.Name === 'Copy Passport' ">(Required if no ID
+                available)</span>
+              <span class="text-white smaller left-20" *ngIf="item.Name === 'Proof of residence' ">(Not older than 3
+                months)</span>
+              <span class="text-white smaller left-20" *ngIf="item.Name === 'Proof of bank account' ">(Required for
+                account
+                security)</span>
+            </ion-label>
+            <input ng2FileSelect [uploader]="uploader" type="file" single (blur)="setInputId(item.L_RID)"
+              #input_{{i}} />
+            <div class="shares-user-info float-right">
+              <div class="shares-user-info-item ">
+                <ion-icon class="text-white" ios="ios-more" md="md-more" style="margin-right: 15px"
+                  (click)="showSingleItemActionSheet(item, i)">
+                </ion-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <h3 class="exo2 section-heading" *ngIf="showDocsReceivedHeading">Documents provided</h3>
+      <div *ngFor="let item of kycList, let i = index">
+        <div class="share-list-item" class="share-list-item accountItems"
+          *ngIf="item.Status != 'D' && item.Name != null ">
+          <ion-label class="text-white">{{item.Name}}
+            <ion-icon name="md-checkmark-circle-outline" class="float-right"
+              color="{{ item.Status === 'A' ? 'success' : 'light' }}"></ion-icon>
+          </ion-label>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <!--<div *ngIf="currentPage==='security'">
+    <div class="infoblock">
+      <p class="text-white">
+        Keep two factor authentication activated.
+      </p>
+    </div>
+    <h3 class="exo2 section-heading">Security settings</h3>
+  </div>-->
+
+
+  <ion-fab left bottom #fab>
+    <button mini ion-fab color="light">
+      <ion-icon class="light-button-icon" name="menu"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+
+      <button mini ion-fab color="secondary" (click)="showHelp(fab)">
+        <ion-icon name="help"></ion-icon>
+        <ion-label class="popup-label"><span>Help</span></ion-label>
+      </button>
+
+      <button mini ion-fab color="secondary" (click)="close(fab)">
+        <ion-icon name="close"></ion-icon>
+        <ion-label class="popup-label"><span>Close</span></ion-label>
+      </button>
+    </ion-fab-list>
+
+  </ion-fab>
+
+</ion-content>
+
+
+
+
+
+
+
+
+<!--
+<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+-->

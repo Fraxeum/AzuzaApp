@@ -1,0 +1,159 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/v2/theming/
+$font-path: "../assets/fonts";
+@import "ionic.globals";
+
+
+
+
+// Named Color Variables
+// --------------------------------------------------
+// Named colors makes it easy to reuse colors on various components.
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+
+$colors: (
+  primary:    #858383,
+  secondary:  #689EBF,
+  tertiary:   #23476D,
+  danger:     #F50000,
+  warning:    #D60909,
+  light:      #ffffff,
+  dark:       #23476D,
+  success:    #0C8E28,
+  black:      #000000,
+);
+
+$grid-max-widths: (
+ lg: 992px
+);
+
+// Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files.
+// To view all the possible Ionic variables, see:
+// http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
+
+$text-color:          color($colors, tertiary);
+$background-color:    #fff;
+$toolbar-background:  color($colors, primary);
+
+$app-background: linear-gradient(to bottom, color($colors, secondary) 0%, color($colors, tertiary) 100%);
+$background-color: transparent;
+$toolbar-background: transparent;
+
+.toolbar-title-md {
+	color: color($colors, light) !important;
+	font-weight: bold;
+	line-height: 140% !important;
+	font-size: x-large !important;
+	font-family: 'Exo 2';
+	font-weight: 500;
+	text-align: left;
+}
+
+h1, h2,h3, h4, h5 {
+	color: white;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+h1{ 
+	font-size: xx-large !important;
+}
+
+h2{
+	font-size: x-large !important;
+}
+
+h3{
+	font-size: larger !important;
+}
+
+h4{
+	font-size: large !important;
+}
+
+h5{
+	font-size: medium !important;
+}
+
+*{
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+    -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important; 
+    outline: none !important;
+}
+
+$loading-ios-spinner-color: #fff;
+$loading-md-spinner-color: #fff;
+$infinite-scroll-loading-color: #fff;
+
+$toast-ios-border-radius: 0.65rem;
+$toast-md-border-radius: 0.65rem;
+$toast-ios-background: color($colors, tertiary);
+$toast-md-background: color($colors, tertiary);
+
+
+
+// App iOS Variables
+// --------------------------------------------------
+// iOS only Sass variables can go here
+
+// $toolbar-ios-background: color($colors, primary);
+$toolbar-ios-border-color: rgba(color($colors, primary), .4);
+
+$searchbar-ios-min-height: 52px;
+$searchbar-ios-input-height: 3.5rem;
+$searchbar-ios-background-color: #fff;
+$searchbar-ios-input-background-color: #eff2f5;
+$searchbar-ios-border-color: #eff2f5;
+
+$list-ios-border-color: rgba(color($colors, primary), .4);
+
+$card-ios-box-shadow-color: rgba(color($colors, primary), .3);
+
+// App Material Design Variables
+// --------------------------------------------------
+// Material Design only Sass variables can go here
+
+$toolbar-border-color: rgba(color($colors, primary), .2);
+$searchbar-md-input-background-color: $searchbar-ios-input-background-color;
+$searchbar-md-input-border-radius: 5px;
+
+$list-md-border-color: rgba(color($colors, primary), .4);
+// $toolbar-md-background: color($colors, primary)
+
+$card-md-box-shadow: 0 2px 2px 0 rgba(color($colors, primary), .14), 0 3px 1px -2px rgba(color($colors, primary), .2), 0 1px 5px 0 rgba(color($colors, primary), .12);
+
+$toolbar-md-text-color: color($colors, dark);
+
+// App Windows Variables
+// --------------------------------------------------
+// Windows only Sass variables can go here
+
+
+
+
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
+
+@import "ionic.theme.default";
+@import "animate";
+@import "icons";
+@import "flags";
+
+// Ionicons
+// --------------------------------------------------
+// The premium icon font for Ionic. For more info, please see:
+// http://ionicframework.com/docs/v2/ionicons/
+@import "ionic.ionicons";
+
+
+
